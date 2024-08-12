@@ -93,6 +93,7 @@ const Notifications = () => {
       <div className="p-4 mb-32">
         <p className="text-xs opacity-50 mt-4">ACTUALIZADO 10 AGOSTO 2023</p>
         <h3 className="text-xl font-bold">Notificaciones</h3>
+
         <input
           type="text"
           className="w-full px-5 py-2 rounded-lg bg-neutral-400/10 mt-2"
@@ -100,6 +101,12 @@ const Notifications = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+
+        <div className="flex items-center gap-1 text-xs mt-2">
+          <button className="bg-blue-100 px-2 py-1 rounded-full ">Todas</button>
+          <button className="bg-neutral-100 px-2 py-1 rounded-full ">Declaraciones</button>
+          <button className="bg-neutral-100 px-2 py-1 rounded-full ">Compras</button>
+        </div>
 
         <h3 className="opacity-40 mt-5 text-xs font-bold">Hoy</h3>
         {filteredTodayNotifications.map((notification, index) => (
