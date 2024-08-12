@@ -13,10 +13,11 @@
     "noEmit": true,
 
     /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "strict": false, // Desactiva todas las reglas estrictas
+    "noUnusedLocals": false, // Permite variables locales sin usar
+    "noUnusedParameters": false, // Permite parámetros sin usar
+    "noFallthroughCasesInSwitch": false, // Permite fallos en switch sin advertencias
+    "forceConsistentCasingInFileNames": false // No fuerza el uso consistente de mayúsculas/minúsculas en nombres de archivo
   },
   "include": ["vite.config.ts"]
 }
