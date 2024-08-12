@@ -23,7 +23,7 @@ const Navbar = () => {
       {categories.map((category) => (
         <button
           key={category.slug}
-          className="flex flex-col items-center gap-1.5 p-3 bg-transparent hover:bg-neutral-200/50 w-full rounded-lg transition"
+          className="flex flex-col items-center gap-1 p-2 bg-transparent hover:bg-neutral-200/50 w-full rounded-lg transition"
         >
           {category.icon}
           <span className="text-xs">{category.label}</span>
