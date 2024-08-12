@@ -64,7 +64,7 @@ const Documents = () => {
             </div>
           </div>
 
-          <button className="rounded-full w-full border border-blue-300 text-sm text-blue-400 mt-2 py-1">
+          <button className="rounded-full w-full border border-blue-400 text-sm text-blue-500 mt-2 py-1">
             Ver todas
           </button>
         </div>
