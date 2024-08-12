@@ -73,7 +73,7 @@ const ChatsPeriod = (period) => {
       {period.map((chat, index) => (
         <div
           key={index}
-          className="relative border-b border-neutral-200 px-4 py-3 hover:bg-neutral-200/50 transition"
+          className="relative border-b border-neutral-200 px-4 py-3 transition"
         >
           <span className="absolute top-3 right-3 text-xs opacity-20">
             12:00 PM

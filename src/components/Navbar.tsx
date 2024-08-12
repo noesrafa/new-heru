@@ -6,17 +6,17 @@ const Navbar = () => {
   const categories = [
     {
       label: "Documentos",
-      icon: <FileText className="size-5" weight="regular" />,
+      icon: <FileText className="size-5 opacity-60" weight="regular" />,
       route: "/documents",
     },
     {
       label: "Chats",
-      icon: <Chats className="size-5" weight="regular" />,
+      icon: <Chats className="size-5 opacity-60" weight="regular" />,
       route: "/",
     },
     {
       label: "Notificaciones",
-      icon: <Bell className="size-5" weight="regular" />,
+      icon: <Bell className="size-5 opacity-60" weight="regular" />,
       route: "/notifications",
     },
   ];
@@ -28,26 +28,32 @@ const Navbar = () => {
   return (
     <div
       className="flex items-center gap-2 fixed bottom-0 w-full justify-around max-w-[600px] p-2 text-blue-950
-     bg-[#f3f3f1] z-10"
+     bg-[#f3f3f1] z-10 mx-auto border-x border-neutral-200"
     >
       {categories.map((category) => (
         <NavLink
           to={category.route}
           key={category.route}
           className={({ isActive, isPending }) => {
-            return `flex flex-col items-center gap-1 p-1 sm:p-2 opacity-60 bg-transparent hover:bg-blue-950/5 w-full rounded-lg transition ${
-              isActive ? "!opacity-100" : isPending ? "pending" : ""
-            }`;
+            return `flex flex-col items-center gap-1 p-1 sm:p-2 bg-transparent hover:bg-blue-950/5 w-full rounded-lg transition`;
           }}
         >
-          {activeCategory === category
-            ? React.cloneElement(category.icon, {
-                weight: "bold",
-              })
-            : category.icon}
+          <div className="relative">
+            {category.label === "Notificaciones" && (
+              <span className="size-3 bg-blue-600 text-white flex items-center justify-center text-xs rounded-full absolute -top-1 -right-1">
+                
+              </span>
+            )}
+            {activeCategory === category
+              ? React.cloneElement(category.icon, {
+                  weight: "bold",
+                  className: "size-5 opacity-100",
+                })
+              : category.icon}
+          </div>
           <span
-            className={`text-xs ${
-              activeCategory === category ? "font-medium" : ""
+            className={`text-xs opacity-60 ${
+              activeCategory === category ? "font-medium opacity-100" : ""
             }`}
           >
             {category.label}

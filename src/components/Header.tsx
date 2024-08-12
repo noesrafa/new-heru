@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
-  console.log(scrollY);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,7 +14,7 @@ const Header = () => {
   }, []);
 
   return (
-    <div className={`sticky top-0 z-10 transition-all ${scrollY > 32 ? "p-2" : ""}`}>
+    <div className={`sticky -top-1 z-10 transition-all ${scrollY > 32 ? "p-2" : ""}`}>
       <div className={`flex justify-between items-center px-5 py-3  bg-[#f3f3f1]/50 backdrop-blur-lg ${
         scrollY > 32 ? "border border-neutral-300 rounded-lg" : ""
       }`}>

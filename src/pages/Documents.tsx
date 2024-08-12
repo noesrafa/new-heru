@@ -9,11 +9,12 @@ import MainLayout from "../layouts/MainLayout";
 
 const Documents = () => {
   return (
-    <MainLayout className="">
+    <MainLayout className="bg-gradient-to-b from-white to-[#f3f3f1]">
       <div className="p-4">
         <p className="text-xs opacity-50 mt-4">ACTUALIZADO 10 AGOSTO 2023</p>
         <h3 className="text-xl font-bold">Mis documentos fiscales</h3>
-        <div className="bg-white rounded-xl px-3 py-5 mt-4">
+
+        <div className="bg-white rounded-xl px-3 py-5 mt-4 shadow-sm">
           <div className="flex justify-between items-center">
             <p className="flex gap-1 items-center text-blue-400 text-xs">
               Datos verificados
@@ -57,13 +58,13 @@ const Documents = () => {
             <div className="h-14 bg-neutral-200 w-[1px]"></div>
 
             <div className="flex items-center flex-col w-full">
-              <p className="text-lg">12</p>
-              <p>Emitidas</p>
-              <p className="opacity-50">$1,200.00</p>
+              <p className="text-lg">4</p>
+              <p>Recibidas</p>
+              <p className="opacity-50">$3,200.00</p>
             </div>
           </div>
 
-          <button className="rounded-full w-full border border-blue-300 text-sm text-blue-400 mt-2">
+          <button className="rounded-full w-full border border-blue-300 text-sm text-blue-400 mt-2 py-1">
             Ver todas
           </button>
         </div>

@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Chats from "./pages/Chats.tsx";
 import MainLayout from "./layouts/MainLayout.tsx";
 import Documents from "./pages/Documents.tsx";
+import Notifications from "./pages/Notifications.tsx";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
   },
   {
     path: "notifications",
-    element: <MainLayout>notifications</MainLayout>,
+    element: <Notifications />,
   },
   {
     path: "documents",
