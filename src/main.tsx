@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Chats from "./pages/Chats.tsx";
 import MainLayout from "./layouts/MainLayout.tsx";
+import Documents from "./pages/Documents.tsx";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
   },
   {
     path: "documents",
-    element: <MainLayout>documents</MainLayout>,
+    element: <Documents />,
   },
 ]);
 

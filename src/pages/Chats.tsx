@@ -126,7 +126,7 @@ const Chats = () => {
   }, [searchTerm]);
 
   return (
-    <MainLayout className="max-w-[600px] relative">
+    <MainLayout className="max-w-[600px] relative  bg-gradient-to-b from-white to-[#f3f3f1] rounded-xl pt-1">
       <hr />
       <div className="px-3 mt-4">
         <input
