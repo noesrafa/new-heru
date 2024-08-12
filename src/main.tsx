@@ -1,10 +1,27 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import { StrictMode } from "react";
+import "./index.css";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Chats from "./pages/Chats.tsx";
+import MainLayout from "./layouts/MainLayout.tsx";
 
-createRoot(document.getElementById('root')!).render(
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Chats />,
+  },
+  {
+    path: "notifications",
+    element: <MainLayout>notifications</MainLayout>,
+  },
+  {
+    path: "documents",
+    element: <MainLayout>documents</MainLayout>,
+  },
+]);
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <RouterProvider router={router} />
+  </StrictMode>
+);

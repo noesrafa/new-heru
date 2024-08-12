@@ -1,3 +1,5 @@
+import MainLayout from "../layouts/MainLayout";
+
 const chatsMock = [
   {
     seen: true,
@@ -18,9 +20,8 @@ const chatsMock = [
 ];
 const Chats = () => {
   return (
-    <div className="max-w-[600px] relative">
+    <MainLayout className="max-w-[600px] relative">
       <hr />
-      <h2 className="text-3xl font-bold px-3 mt-4">Chats</h2>
       <div className="px-3 mt-4">
         <input
           type="text"
@@ -43,11 +44,11 @@ const Chats = () => {
                 <div className="size-2 bg-blue-500 rounded-full"> </div>
               )}
             </h4>
-            <p className="font-light opacity-40">{chat.message}</p>
+            <p className="font-light opacity-40 truncate">{chat.message}</p>
           </div>
         ))}
       </div>
-    </div>
+    </MainLayout>
   );
 };
 
