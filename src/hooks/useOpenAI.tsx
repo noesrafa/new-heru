@@ -176,7 +176,7 @@ function useOpenAI() {
     setMessages((prev) => prev.slice(0, -1));
     setMessages((prev) => [
       ...prev,
-      { message: resume, role: "current-action" },
+      { message: `${resume}`, role: "current-action" },
     ]);
 
     setIsLoading({ ...isLoading, categorizeUserMessage: false });

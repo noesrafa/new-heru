@@ -24,9 +24,10 @@ const Chat = () => {
   console.log("MESSAGES", messages);
 
   useEffect(() => {
-    // move to the bottom of the chat
-    if (lastMessageRef.current) {
+    if (lastMessageRef.current && messages.length > 1) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [messages]);
 
