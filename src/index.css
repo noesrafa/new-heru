@@ -56,3 +56,35 @@ body {
     opacity: 0.5;
   }
 }
+
+/* {true && (
+  <span
+    className={`ml-1 h-3 w-3 rounded-full inline-block bg-blue-950 duration-300 ${
+      hideCircle ? `scale-0 opacity-0 ${center && "hidden"}` : ""
+    }`}
+  />
+)} */
+
+.typing-text:after {
+  transition: all 0.5s;
+}
+
+.typing-text:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-left: 10px;
+  background: #172554;
+}
+
+.typing-text-hide-dot:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  transform: scale(0);
+  width: 0px;
+  height: 0px;
+}

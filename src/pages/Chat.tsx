@@ -9,6 +9,7 @@ import { useRef } from "react";
 const Chat = () => {
   const [userMessage, setUserMessage] = useState("");
   const lastMessageRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { createMessage, isLoading, messages } = useOpenAI();
   const navigate = useNavigate();
@@ -16,18 +17,34 @@ const Chat = () => {
   const handleSendMessage = async (userMessage: string, event) => {
     event.preventDefault();
     if (!userMessage || isLoading.categorizeUserMessage) return;
+    setUserMessage("");
 
     await createMessage({ message: userMessage });
-    setUserMessage("");
   };
 
   useEffect(() => {
-    if (lastMessageRef.current && messages.length > 5) {
-      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+
+    if (isMobile) {
+      if (lastMessageRef.current && messages.length > 5) {
+        lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (lastMessageRef.current) {
+        lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   }, [messages]);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  console.log(isLoading.createMessage);
 
   return (
     <ChatLayout>
@@ -86,15 +103,36 @@ const Chat = () => {
                     {message.role === "assistant" ? "HeruConta" : ""}
                   </h4>
                 </div>
-                <div
+                {/* {message.role === "assistant" ? (
+                  <TypingText
+                    text={message.message}
+                    duration={50}
+                    className={`w-fit px-2 py-2 text-sm rounded-xl ${
+                      message.role === "assistant"
+                        ? "bg-white shadow-sm rounded-tl-none"
+                        : "rounded-br-none text-white bg-blue-500"
+                    }`}
+                  />
+                ) : (
+                  <p
+                    className={`w-fit px-2 py-2 text-sm rounded-xl ${
+                      message.role === "assistant"
+                        ? "bg-white shadow-sm rounded-tl-none"
+                        : "rounded-br-none text-white bg-blue-500"
+                    }`}
+                  >
+                    {message.message}
+                  </p>
+                )} */}
+                <p
                   className={`w-fit px-2 py-2 text-sm rounded-xl ${
                     message.role === "assistant"
                       ? "bg-white shadow-sm rounded-tl-none"
-                      : "rounded-br-none text-white bg-blue-500"
+                      : "rounded-br-none text-blue-950 bg-blue-100"
                   }`}
                 >
                   {message.message}
-                </div>
+                </p>
               </div>
             );
           })}
@@ -104,6 +142,7 @@ const Chat = () => {
           <form className="w-full  max-w-[600px] mx-auto px-2 pt-2 pb-3 border-x border-t border-neutral-200 bg-white z-10">
             <div className="flex items-center gap-2">
               <input
+                ref={inputRef}
                 value={userMessage}
                 onChange={(e) => setUserMessage(e.target.value)}
                 type="text"
@@ -111,7 +150,7 @@ const Chat = () => {
                 className="w-full px-4 py-2 rounded-lg bg-neutral-400/20"
               />
               <button
-                disabled={isLoading.categorizeUserMessage}
+                disabled={isLoading.createMessage}
                 type="submit"
                 onClick={(e) => handleSendMessage(userMessage, e)}
                 className="bg-gradient-to-b from-blue-500 to-blue-700 text-white px-3 h-10 rounded-lg text-sm disabled:opacity-50"
