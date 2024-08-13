@@ -49,7 +49,6 @@ function useOpenAI() {
           run.id,
           { tool_outputs: toolOutputs }
         );
-        console.log("Tool outputs submitted successfully.");
       } else {
         console.log("No tool outputs to submit.");
       }
@@ -172,6 +171,7 @@ function useOpenAI() {
 
     const category = response?.choices?.[0]?.message?.content;
     const resume = JSON.parse(category).resume;
+    console.log("CATEGORIZED", category);
 
     setMessages((prev) => prev.slice(0, -1));
     setMessages((prev) => [

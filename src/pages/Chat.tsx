@@ -21,10 +21,8 @@ const Chat = () => {
     setUserMessage("");
   };
 
-  console.log("MESSAGES", messages);
-
   useEffect(() => {
-    if (lastMessageRef.current && messages.length > 1) {
+    if (lastMessageRef.current && messages.length > 5) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
