@@ -6,3 +6,18 @@ body {
   background: #f3f3f1;
   color: #172554;
 }
+
+.fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.500, -0.030, 0.005, 1.185);
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: translateY(200px);
+ 
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

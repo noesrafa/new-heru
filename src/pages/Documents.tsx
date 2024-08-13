@@ -10,8 +10,8 @@ import MainLayout from "../layouts/MainLayout";
 const Documents = () => {
   return (
     <MainLayout className="bg-gradient-to-b from-white to-[#f3f3f1]">
-      <div className="p-4">
-        <p className="text-xs opacity-50 mt-4">ACTUALIZADO 10 AGOSTO 2023</p>
+      <div className="p-4 pb-32">
+        <p className="text-[10px] opacity-50 mt-4">ACTUALIZADO 10 AGOSTO 2023</p>
         <h3 className="text-xl font-bold">Mis documentos fiscales</h3>
 
         <div className="bg-white rounded-xl px-3 py-5 mt-4 shadow-sm">

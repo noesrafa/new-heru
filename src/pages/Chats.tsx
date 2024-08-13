@@ -69,22 +69,22 @@ const chatsMock3 = [
 
 const ChatsPeriod = (period) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1 px-2">
       {period.map((chat, index) => (
         <div
           key={index}
-          className="relative border-b border-neutral-200 px-4 py-3 transition"
+          className="relative px-4 py-3 transition text-sm  shadow-sm bg-white rounded-lg" 
         >
           <span className="absolute top-3 right-3 text-xs opacity-20">
             12:00 PM
           </span>
-          <h4 className="font-medium text-md flex items-center gap-1.5">
+          <h4 className="font-medium  flex items-center gap-1.5">
             {chat.name}
             {chat.seen && (
               <div className="size-2 bg-blue-500 rounded-full"> </div>
             )}
           </h4>
-          <p className="font-light opacity-40 truncate">{chat.message}</p>
+          <p className="font-light opacity-40 truncate -mt-0.5">{chat.message}</p>
         </div>
       ))}
     </div>
@@ -126,8 +126,8 @@ const Chats = () => {
   }, [searchTerm]);
 
   return (
-    <MainLayout className="max-w-[600px] relative  bg-gradient-to-b from-white to-[#f3f3f1] rounded-xl">
-      <hr />
+    <MainLayout className="max-w-[600px] relative bg-gradient-to-b from-white to-[#f3f3f1] rounded-xl">
+
       <div className="px-3 mt-4">
         <input
           type="text"
@@ -140,7 +140,7 @@ const Chats = () => {
       <div className="mb-32">
         {filteredChats.today.length > 0 && (
           <>
-            <h3 className="px-4 opacity-40 mt-5 -mb-1 text-xs font-bold">
+            <h3 className="px-4 opacity-40 mt-5 mb-1 text-xs font-bold">
               Hoy
             </h3>
             {ChatsPeriod(filteredChats.today)}
@@ -148,7 +148,7 @@ const Chats = () => {
         )}
         {filteredChats.twoDaysAgo.length > 0 && (
           <>
-            <h3 className="px-4 opacity-40 mt-7 -mb-1 text-xs font-bold">
+            <h3 className="px-4 opacity-40 mt-7 mb-1 text-xs font-bold">
               Hace 2 días
             </h3>
             {ChatsPeriod(filteredChats.twoDaysAgo)}
@@ -157,7 +157,7 @@ const Chats = () => {
         {filteredChats.weekAgo.length > 0 && (
           <>
             {" "}
-            <h3 className="px-4 opacity-40 mt-7 -mb-1 text-xs font-bold">
+            <h3 className="px-4 opacity-40 mt-7 mb-1 text-xs font-bold">
               Hace una semana
             </h3>
             {ChatsPeriod(filteredChats.weekAgo)}

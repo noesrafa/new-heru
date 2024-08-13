@@ -6,6 +6,7 @@ import Chats from "./pages/Chats.tsx";
 import MainLayout from "./layouts/MainLayout.tsx";
 import Documents from "./pages/Documents.tsx";
 import Notifications from "./pages/Notifications.tsx";
+import Chat from "./pages/Chat.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,11 @@ const router = createBrowserRouter([
   {
     path: "documents",
     element: <Documents />,
+  },
+  // chat with id
+  {
+    path: "chat/:id",
+    element: <Chat />,
   },
 ]);
 
