@@ -140,7 +140,7 @@ const Chats = () => {
       <div className="mb-32">
         {filteredChats.today.length > 0 && (
           <>
-            <h3 className="px-4 opacity-40 mt-5 mb-1 text-xs font-bold">
+            <h3 className="px-4 opacity-40 mt-5 mb-3 text-xs font-bold">
               Hoy
             </h3>
             {ChatsPeriod(filteredChats.today)}
@@ -148,7 +148,7 @@ const Chats = () => {
         )}
         {filteredChats.twoDaysAgo.length > 0 && (
           <>
-            <h3 className="px-4 opacity-40 mt-7 mb-1 text-xs font-bold">
+            <h3 className="px-4 opacity-40 mt-7 mb-3 text-xs font-bold">
               Hace 2 días
             </h3>
             {ChatsPeriod(filteredChats.twoDaysAgo)}
@@ -157,7 +157,7 @@ const Chats = () => {
         {filteredChats.weekAgo.length > 0 && (
           <>
             {" "}
-            <h3 className="px-4 opacity-40 mt-7 mb-1 text-xs font-bold">
+            <h3 className="px-4 opacity-40 mt-7 mb-3 text-xs font-bold">
               Hace una semana
             </h3>
             {ChatsPeriod(filteredChats.weekAgo)}

@@ -1,239 +1,34 @@
 import ChatLayout from "../layouts/ChatLayout";
 import { CaretLeft, Eyeglasses } from "@phosphor-icons/react";
-import OpenAI from "openai";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const messages = [
-  {
-    message: "Hola, ¿en qué puedo ayudarte?",
-    role: "assistant",
-  },
-  {
-    message: "Quiero saber mi saldo.",
-    role: "user",
-  },
-  {
-    message: "Claro, ¿me puedes proporcionar tu número de cuenta?",
-    role: "assistant",
-  },
-  {
-    message: "1234567890",
-    role: "user",
-  },
-  {
-    message: "Tu saldo actual es de $1,000.00",
-    role: "assistant",
-  },
-  {
-    message: "¡Gracias!",
-    role: "user",
-  },
-  {
-    message: "¿En qué más puedo ayudarte?",
-    role: "assistant",
-  },
-  {
-    message: "Tu saldo actual es de $1,000.00",
-    role: "assistant",
-  },
-  {
-    message: "¡Gracias!",
-    role: "user",
-  },
-  {
-    message: "¿En qué más puedo ayudarte?",
-    role: "assistant",
-  },
-  {
-    message: "Tu saldo actual es de $1,000.00",
-    role: "assistant",
-  },
-  {
-    message: "¡Gracias!",
-    role: "user",
-  },
-  {
-    message: "¿En qué más puedo ayudarte?",
-    role: "assistant",
-  },
-  {
-    message: "Tu saldo actual es de $1,000.00",
-    role: "assistant",
-  },
-  {
-    message: "¡Gracias!",
-    role: "user",
-  },
-  {
-    message: "¿En qué más puedo ayudarte?",
-    role: "assistant",
-  },
-];
-
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+import useOpenAI from "../hooks/useOpenAI";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 const Chat = () => {
-  const heruAIAssistantOperationsId = import.meta.env
-    .VITE_OPENAI_HERU_AI_ASSISTANT_OPERATIONS_ID;
-  const heruAIAssistantId = import.meta.env.VITE_OPENAI_HERU_AI_ASSISTANT_ID;
-  const heruAIAssistantAccountantId = import.meta.env
-    .VITE_OPENAI_HERU_AI_ASSISTANT_ACCOUNTANT_ID;
+  const [userMessage, setUserMessage] = useState("");
+  const lastMessageRef = useRef<HTMLDivElement>(null);
 
-  async function createAssistantMessage({
-    message,
-    role,
-    currentAssistantId,
-  }: {
-    message: string;
-    role: "user" | "assistant";
-    currentAssistantId?: string;
-  }) {
-    console.log("\n\nMESSAGE", message, role, currentAssistantId);
-    const thread = await openai.beta.threads.create();
-    console.log("\n\nTHREAD", thread);
-    console.log("\n\nTHREAD ID", thread.id);
+  const { createMessage, isLoading, messages } = useOpenAI();
+  const navigate = useNavigate();
 
-    await openai.beta.threads.messages.create(thread.id, {
-      role,
-      content: message,
-    });
+  const handleSendMessage = async (userMessage: string, event) => {
+    event.preventDefault();
+    if (!userMessage || isLoading.categorizeUserMessage) return;
 
-    let run = await openai.beta.threads.runs.createAndPoll(thread.id, {
-      assistant_id: currentAssistantId || heruAIAssistantId,
-    });
-    console.log("\n\nRUN", run);
-
-    return runManager({ run, threadId: thread.id });
-  }
-
-  async function runManager({ run, threadId }) {
-    if (run.status === "completed") {
-      const messages = await openai.beta.threads.messages.list(run.thread_id);
-      const message = //@ts-ignore
-        messages.data.map((msg) => msg.content)?.[0]?.[0]?.text?.value;
-
-      return {
-        message,
-        status: "success",
-      };
-    } else {
-      if (run.status === "requires_action") {
-        console.log("\n\nRUN REQUIRED ACTION", run);
-        return await handleRequiresAction({
-          run,
-          threadId,
-        });
-      }
-      return run;
-    }
-  }
-
-  async function handleRequiresAction({ run, threadId }) {
-    const requiredAction = run.required_action;
-
-    if (
-      requiredAction &&
-      requiredAction.submit_tool_outputs &&
-      requiredAction.submit_tool_outputs.tool_calls
-    ) {
-      const toolCalls = requiredAction.submit_tool_outputs.tool_calls;
-
-      const sendToAccountantTool = toolCalls.find(
-        (tool) => tool.function.name === "accountant_agent"
-      );
-
-      if (sendToAccountantTool) {
-        const functionArguments = JSON.parse(
-          sendToAccountantTool.function.arguments
-        );
-        return await createAssistantMessage({
-          message: `Nombre: Vicente, mensaje: ${functionArguments.userMessage}`,
-          role: "user",
-          currentAssistantId: heruAIAssistantAccountantId,
-        });
-      }
-
-      const sendToOperations = toolCalls.find(
-        (tool) => tool.function.name === "operations_agent"
-      );
-
-      if (sendToOperations) {
-        const functionArguments = JSON.parse(
-          sendToOperations.function.arguments
-        );
-        return await createAssistantMessage({
-          message: `Nombre: Vicente, mensaje: ${functionArguments.userMessage}`,
-          role: "user",
-          currentAssistantId: heruAIAssistantOperationsId,
-        });
-      }
-
-      const toolOutputs = await Promise.all(
-        toolCalls.map(async (tool) => {
-          const functionArguments = JSON.parse(tool.function.arguments);
-          const functionName = tool.function.name;
-
-          if (functionName === "get_declaration_receipt") {
-            const response = `Tu declaración de ${functionArguments?.month} 2023 está lista, puedes descargarla aquí`;
-
-            console.log(
-              "\n\nRUNNING",
-              functionName,
-              functionArguments,
-              response
-            );
-
-            return {
-              tool_call_id: tool.id,
-              output: response,
-            };
-          }
-          if (functionName === "solve_payments_error") {
-            const response = `Paga en oxxo para continuar con el pago`;
-
-            console.log(
-              "\n\nRUNNING",
-              functionName,
-              functionArguments,
-              response
-            );
-
-            return {
-              tool_call_id: tool.id,
-              output: response,
-            };
-          }
-        })
-      );
-
-      if (toolOutputs.length > 0) {
-        run = await openai.beta.threads.runs.submitToolOutputsAndPoll(
-          threadId,
-          run.id,
-          { tool_outputs: toolOutputs }
-        );
-      } else {
-        console.log("No tool outputs to submit.");
-      }
-
-      return runManager({ run, threadId });
-    }
-  }
-
-  const handleSendMessage = async (message: string) => {
-    const response = await createAssistantMessage({
-      message,
-      role: "user",
-    });
-
-    console.log("\n\nRESPONSE", response);
+    await createMessage({ message: userMessage });
+    setUserMessage("");
   };
 
-  const navigate = useNavigate();
+  console.log("MESSAGES", messages);
+
+  useEffect(() => {
+    // move to the bottom of the chat
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <ChatLayout>
@@ -260,49 +55,75 @@ const Chat = () => {
 
       <div className="p-4">
         <div className="flex flex-col gap-1 mb-20">
-          {messages.map((message, index) => (
-            <div
-              className={`${
-                message.role === "assistant" ? "" : "ml-auto"
-              } gap-2 items-center`}
-              key={`${index}-${message.role}`}
-            >
-              <div>
-                <h4
-                  className={`text-[10px] opacity-60 font-medium mb-0.5 ${
-                    message.role === "assistant" ? "" : "text-right"
+          {messages.map((message, index) => {
+            const capitalizeFirstLetter = (string: string) =>
+              string?.charAt(0)?.toUpperCase() + string?.slice(1);
+
+            if (message.role === "current-action") {
+              return (
+                <p
+                  className="text-sm pulse-opacity mt-2"
+                  key={`${index}-${message.role}`}
+                >
+                  {capitalizeFirstLetter(message.message)}
+                </p>
+              );
+            }
+
+            return (
+              <div
+                ref={lastMessageRef}
+                className={`fade-in-left ${
+                  message.role === "assistant" ? "" : "ml-auto"
+                } gap-2 items-center`}
+                key={`${index}-${message.role}`}
+              >
+                <div>
+                  <h4
+                    className={`text-[10px] opacity-60 font-medium mb-0.5 ${
+                      message.role === "assistant" ? "" : "text-right"
+                    }`}
+                  >
+                    {message.role === "assistant" ? "HeruConta" : ""}
+                  </h4>
+                </div>
+                <div
+                  className={`w-fit px-2 py-2 text-sm rounded-xl ${
+                    message.role === "assistant"
+                      ? "bg-white shadow-sm rounded-tl-none"
+                      : "rounded-br-none text-white bg-blue-500"
                   }`}
                 >
-                  {message.role === "assistant" ? "HeruConta" : ""}
-                </h4>
+                  {message.message}
+                </div>
               </div>
-              <div
-                className={`w-fit px-2 py-2 text-sm rounded-xl ${
-                  message.role === "assistant"
-                    ? "bg-white shadow-sm rounded-tl-none"
-                    : "bg-blue-200 rounded-br-none text-blue-950"
-                }`}
-              >
-                {message.message}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="fixed bottom-0 left-0 w-full fade-in">
-          <div className="w-full flex items-center gap-1 max-w-[600px] mx-auto px-2 pt-2 pb-3 border-x border-t border-neutral-200 bg-[#f3f3f1] z-10">
-            <input
-              type="text"
-              placeholder="Escribe un mensaje..."
-              className="w-full px-4 py-2 rounded-lg bg-neutral-400/10"
-            />
-            <button
-              onClick={() => handleSendMessage("Hola, ¿en qué puedo ayudarte?")}
-              className="bg-gradient-to-b from-blue-500 to-blue-600 text-white px-3 h-10 rounded-lg text-sm"
-            >
-              Enviar
-            </button>
-          </div>
+          <form className="w-full  max-w-[600px] mx-auto px-2 pt-2 pb-3 border-x border-t border-neutral-200 bg-white z-10">
+            <div className="flex items-center gap-2">
+              <input
+                value={userMessage}
+                onChange={(e) => setUserMessage(e.target.value)}
+                type="text"
+                placeholder="Escribe un mensaje..."
+                className="w-full px-4 py-2 rounded-lg bg-neutral-400/20"
+              />
+              <button
+                disabled={isLoading.categorizeUserMessage}
+                type="submit"
+                onClick={(e) => handleSendMessage(userMessage, e)}
+                className="bg-gradient-to-b from-blue-500 to-blue-700 text-white px-3 h-10 rounded-lg text-sm disabled:opacity-50"
+              >
+                Enviar
+              </button>
+            </div>
+            <p className="opacity-50 text-center text-xs -mb-1 mt-2">
+              Tiempo promedio de respuesta 1 minuto.
+            </p>
+          </form>
         </div>
       </div>
     </ChatLayout>

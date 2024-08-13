@@ -8,16 +8,51 @@ body {
 }
 
 .fade-in {
-  animation: fadeIn 0.4s cubic-bezier(0.500, -0.030, 0.005, 1.185);
+  animation: fadeIn 0.4s cubic-bezier(0.5, -0.03, 0.005, 1.185);
+}
+
+.fade-in-left {
+  animation: fadeInLeft 0.5s cubic-bezier(0.5, -0.03, 0.005, 1.185);
+}
+
+.pulse-opacity {
+  animation: pulseOpacity 1s infinite;
+}
+
+.fade-in-left-pulse {
+  animation: fadeInLeft 0.5s cubic-bezier(0.5, -0.03, 0.005, 1.185),
+    pulseOpacity 1s infinite;
 }
 
 @keyframes fadeIn {
   0% {
     transform: translateY(200px);
- 
   }
   100% {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes fadeInLeft {
+  0% {
+    transform: translateX(-32px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseOpacity {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
   }
 }
