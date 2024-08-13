@@ -1,9 +1,12 @@
 import { ArrowRight, Bell, Chats, FileText } from "@phosphor-icons/react";
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.pathname);
+  
 
   const categories = [
     {
@@ -24,7 +27,7 @@ const Navbar = () => {
   ];
 
   const activeCategory = categories.find(
-    (category) => window.location.pathname === category.route
+    (category) => location.pathname === category.route
   );
 
   return (
@@ -63,8 +66,7 @@ const Navbar = () => {
         </NavLink>
       ))}
       <div className="w-full fixed bottom-[60px] left-0">
-        <div className="w-full max-w-[600px] bg-gradient-to-t from-[#f3f3f1] to-[#f3f3f1]/20 border-x border-neutral-200 mx-auto left-0 h-20 z-5">
-        </div>
+        <div className="w-full max-w-[600px] bg-gradient-to-t from-[#f3f3f1] to-[#f3f3f1]/20 border-x border-neutral-200 mx-auto left-0 h-20 z-5"></div>
       </div>
       {activeCategory === categories[1] && (
         <div className="absolute bottom-[64px] sm:bottom-[70px] left-0 w-full px-5">

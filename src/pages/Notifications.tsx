@@ -91,7 +91,6 @@ const Notifications = () => {
   return (
     <MainLayout className="bg-gradient-to-b from-white to-[#f3f3f1]">
       <div className="p-4 pb-32">
-        <p className="text-[10px] opacity-50 mt-4">ACTUALIZADO 10 AGOSTO 2023</p>
         <h3 className="text-xl font-bold">Notificaciones</h3>
 
         <input
@@ -102,12 +101,12 @@ const Notifications = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        <div className="flex items-center gap-1 text-xs mt-2">
-          <button className="bg-blue-100 px-2 py-1 rounded-full ">Todas</button>
-          <button className="bg-neutral-100 px-2 py-1 rounded-full ">
+        <div className="flex items-center gap-2 text-sm mt-3">
+          <button className="bg-blue-100 px-3 py-1 rounded-full ">Todas</button>
+          <button className="bg-neutral-100 px-3 py-1 rounded-full ">
             Declaraciones
           </button>
-          <button className="bg-neutral-100 px-2 py-1 rounded-full ">
+          <button className="bg-neutral-100 px-3 py-1 rounded-full ">
             Compras
           </button>
         </div>

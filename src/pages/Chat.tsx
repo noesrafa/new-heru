@@ -1,5 +1,7 @@
 import ChatLayout from "../layouts/ChatLayout";
 import { CaretLeft, Eyeglasses } from "@phosphor-icons/react";
+import OpenAI from "openai";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const messages = [
@@ -69,9 +71,167 @@ const messages = [
   },
 ];
 
+const openai = new OpenAI({
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true,
+});
+
 const Chat = () => {
-  const assistant = import.meta.env.VITE_OPENAI_HERU_AI_ASSISTANT_OPERATIONS_ID;
-  console.log(assistant);
+  const heruAIAssistantOperationsId = import.meta.env
+    .VITE_OPENAI_HERU_AI_ASSISTANT_OPERATIONS_ID;
+  const heruAIAssistantId = import.meta.env.VITE_OPENAI_HERU_AI_ASSISTANT_ID;
+  const heruAIAssistantAccountantId = import.meta.env
+    .VITE_OPENAI_HERU_AI_ASSISTANT_ACCOUNTANT_ID;
+
+  async function createAssistantMessage({
+    message,
+    role,
+    currentAssistantId,
+  }: {
+    message: string;
+    role: "user" | "assistant";
+    currentAssistantId?: string;
+  }) {
+    console.log("\n\nMESSAGE", message, role, currentAssistantId);
+    const thread = await openai.beta.threads.create();
+    console.log("\n\nTHREAD", thread);
+    console.log("\n\nTHREAD ID", thread.id);
+
+    await openai.beta.threads.messages.create(thread.id, {
+      role,
+      content: message,
+    });
+
+    let run = await openai.beta.threads.runs.createAndPoll(thread.id, {
+      assistant_id: currentAssistantId || heruAIAssistantId,
+    });
+    console.log("\n\nRUN", run);
+
+    return runManager({ run, threadId: thread.id });
+  }
+
+  async function runManager({ run, threadId }) {
+    if (run.status === "completed") {
+      const messages = await openai.beta.threads.messages.list(run.thread_id);
+      const message = //@ts-ignore
+        messages.data.map((msg) => msg.content)?.[0]?.[0]?.text?.value;
+
+      return {
+        message,
+        status: "success",
+      };
+    } else {
+      if (run.status === "requires_action") {
+        console.log("\n\nRUN REQUIRED ACTION", run);
+        return await handleRequiresAction({
+          run,
+          threadId,
+        });
+      }
+      return run;
+    }
+  }
+
+  async function handleRequiresAction({ run, threadId }) {
+    const requiredAction = run.required_action;
+
+    if (
+      requiredAction &&
+      requiredAction.submit_tool_outputs &&
+      requiredAction.submit_tool_outputs.tool_calls
+    ) {
+      const toolCalls = requiredAction.submit_tool_outputs.tool_calls;
+
+      const sendToAccountantTool = toolCalls.find(
+        (tool) => tool.function.name === "accountant_agent"
+      );
+
+      if (sendToAccountantTool) {
+        const functionArguments = JSON.parse(
+          sendToAccountantTool.function.arguments
+        );
+        return await createAssistantMessage({
+          message: `Nombre: Vicente, mensaje: ${functionArguments.userMessage}`,
+          role: "user",
+          currentAssistantId: heruAIAssistantAccountantId,
+        });
+      }
+
+      const sendToOperations = toolCalls.find(
+        (tool) => tool.function.name === "operations_agent"
+      );
+
+      if (sendToOperations) {
+        const functionArguments = JSON.parse(
+          sendToOperations.function.arguments
+        );
+        return await createAssistantMessage({
+          message: `Nombre: Vicente, mensaje: ${functionArguments.userMessage}`,
+          role: "user",
+          currentAssistantId: heruAIAssistantOperationsId,
+        });
+      }
+
+      const toolOutputs = await Promise.all(
+        toolCalls.map(async (tool) => {
+          const functionArguments = JSON.parse(tool.function.arguments);
+          const functionName = tool.function.name;
+
+          if (functionName === "get_declaration_receipt") {
+            const response = `Tu declaración de ${functionArguments?.month} 2023 está lista, puedes descargarla aquí`;
+
+            console.log(
+              "\n\nRUNNING",
+              functionName,
+              functionArguments,
+              response
+            );
+
+            return {
+              tool_call_id: tool.id,
+              output: response,
+            };
+          }
+          if (functionName === "solve_payments_error") {
+            const response = `Paga en oxxo para continuar con el pago`;
+
+            console.log(
+              "\n\nRUNNING",
+              functionName,
+              functionArguments,
+              response
+            );
+
+            return {
+              tool_call_id: tool.id,
+              output: response,
+            };
+          }
+        })
+      );
+
+      if (toolOutputs.length > 0) {
+        run = await openai.beta.threads.runs.submitToolOutputsAndPoll(
+          threadId,
+          run.id,
+          { tool_outputs: toolOutputs }
+        );
+      } else {
+        console.log("No tool outputs to submit.");
+      }
+
+      return runManager({ run, threadId });
+    }
+  }
+
+  const handleSendMessage = async (message: string) => {
+    const response = await createAssistantMessage({
+      message,
+      role: "user",
+    });
+
+    console.log("\n\nRESPONSE", response);
+  };
 
   const navigate = useNavigate();
 
@@ -136,7 +296,10 @@ const Chat = () => {
               placeholder="Escribe un mensaje..."
               className="w-full px-4 py-2 rounded-lg bg-neutral-400/10"
             />
-            <button className="bg-gradient-to-b from-blue-500 to-blue-600 text-white px-3 h-10 rounded-lg text-sm">
+            <button
+              onClick={() => handleSendMessage("Hola, ¿en qué puedo ayudarte?")}
+              className="bg-gradient-to-b from-blue-500 to-blue-600 text-white px-3 h-10 rounded-lg text-sm"
+            >
               Enviar
             </button>
           </div>
