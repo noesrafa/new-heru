@@ -1,5 +1,12 @@
 import ChatLayout from "../layouts/ChatLayout";
-import { CaretLeft, Eyeglasses } from "@phosphor-icons/react";
+import {
+  CaretLeft,
+  Check,
+  CheckCircle,
+  Eyeglasses,
+  Shield,
+  ShieldCheck,
+} from "@phosphor-icons/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useOpenAI from "../hooks/useOpenAI";
@@ -44,8 +51,6 @@ const Chat = () => {
     inputRef.current.focus();
   }, []);
 
-  console.log(isLoading.createMessage);
-
   return (
     <ChatLayout>
       <div className="flex gap-2 items-center p-3 sticky top-0 border-b border-neutral-100 bg-white/70 backdrop-blur-xl z-10">
@@ -70,7 +75,7 @@ const Chat = () => {
       </div>
 
       <div className="p-4">
-        <div className="flex flex-col gap-1 mb-20">
+        <div className="flex flex-col gap-2 mb-20">
           {messages.map((message, index) => {
             const capitalizeFirstLetter = (string: string) =>
               string?.charAt(0)?.toUpperCase() + string?.slice(1);
@@ -83,6 +88,46 @@ const Chat = () => {
                 >
                   {capitalizeFirstLetter(message.message)}
                 </p>
+              );
+            }
+
+            if (message.role === "linking-sat") {
+              return (
+                <div
+                  ref={lastMessageRef}
+                  className="fade-in-left text-sm gap-2 items-center bg-white shadow-sm border border-blue-200 rounded-xl px-3 pt-5 pb-3 my-1 max-w-[90%] sm:max-w-[70%]"
+                  key={`${index}-${message.role}`}
+                >
+                  <div className="text-center">
+                    <CheckCircle className="size-7 text-blue-500 mx-auto my-2" />
+                    <h4 className="font-medium text-lg">
+                      Vincula tu cuenta del SAT
+                    </h4>
+                    <p className="text-xs opacity-60 my-2">
+                      Para obtener tu constancia, opinión de cumplimiento,
+                      presentar tus declaraciones y más.
+                    </p>
+                  </div>
+                  <div className="mt-4">
+                    <input
+                      type="text"
+                      placeholder="Ingresa tu RFC"
+                      className="bg-neutral-100/50 border border-neutral-200 rounded-lg px-2 py-2 w-full"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Ingresa tu contraseña del SAT"
+                      className="bg-neutral-100/50 border border-neutral-200 rounded-lg px-2 py-2 w-full mt-2"
+                    />
+                  </div>
+                  <button className="bg-gradient-to-b from-blue-500 to-blue-600 text-white text-center py-2 rounded-lg w-full mt-5">
+                    Vincular
+                  </button>
+                  <div className="bg-blue-100/80 text-blue-500 px-2 py-1 text-xs rounded-lg mt-3 flex items-center gap-2">
+                    <ShieldCheck className="size-5" />
+                    Tus datos están encriptados y 100% protegidos.
+                  </div>
+                </div>
               );
             }
 

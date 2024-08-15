@@ -10,7 +10,7 @@ const openai = new OpenAI({
 
 const initialMessages = [
   {
-    message: "Hola, ¿en qué puedo ayudarte?",
+    message: "Hola, estoy aquí para ayudarte.",
     role: "assistant",
   },
 ];
@@ -44,7 +44,7 @@ function useOpenAI() {
           Categoriza la duda, para el descripción parafrasea la duda en 5 palabras o menos.
             - accountant: dudas fiscales, declaraciones, errores en el calculo, tramites fiscales.
             - operations: ayuda con los pagos, información desactualizada.
-            - heru: heru, constancia fiscal, opinion de cumplimiento, actualizar perfil de heru, vincular.
+            - heru: heru, constancia fiscal, opinion de cumplimiento, actualizar perfil de heru, vincular cuenta del SAT.
             - greeting: saludo, despedida, agradecimiento.
             - no-related: cualquier otra cosa.
 
@@ -118,7 +118,7 @@ function useOpenAI() {
           ...prev,
           {
             message:
-              "No tengo información sobre ese tema, ¿en qué más puedo ayudarte?",
+              "No tengo información sobre ese tema, estoy aquí para ayudarte con tus consultas fiscales y relacionadas con los servicios de Heru. ¿Hay algo específico en lo que te pueda asistir?",
             role: "assistant",
           },
         ]);
@@ -132,7 +132,7 @@ function useOpenAI() {
         setMessagesHistory((prev) => [
           ...prev,
           {
-            message: "Hola, ¿en qué puedo ayudarte?",
+            message: "Hola Vicente, ¿Cómo puedo ayudarte hoy?",
             role: "assistant",
           },
         ]);
@@ -196,6 +196,38 @@ function useOpenAI() {
               tool_call_id: tool.id,
               output: "Número actualizado exitosamente",
             };
+          } else if (tool.function.name === "solve_payments_error") {
+            setMessagesHistory((prev) => prev.slice(0, -1));
+            setMessagesHistory((prev) => [
+              ...prev,
+              {
+                message: "Analizando el error con tu pago",
+                role: "current-action",
+              },
+            ]);
+
+            await new Promise((resolve) => setTimeout(resolve, 1500));
+
+            return {
+              tool_call_id: tool.id,
+              output:
+                "Error con el pago resuelto, intenta nuevamente en 5 minutos.",
+            };
+          } else if (tool.function.name === "linking_sat") {
+            setMessagesHistory((prev) => prev.slice(0, -1));
+            setMessagesHistory((prev) => [
+              ...prev,
+              {
+                message: "Vinculando cuenta del SAT",
+                role: "linking-sat",
+              },
+            ]);
+
+            return {
+              tool_call_id: tool.id,
+              output:
+                "Listo, le acabas de enviar un formulario para que vincule su cuenta del SAT a Heru en el mensaje anterior.",
+            };
           }
         })
       );
@@ -203,7 +235,14 @@ function useOpenAI() {
       if (toolOutputs.length > 0) {
         console.log("Submitting tool outputs", toolOutputs, currentThreadId);
 
-        setMessagesHistory((prev) => prev.slice(0, -1));
+        const lastMessageIsLinkingSat = toolOutputs.some(
+          (output) =>
+            output.output ===
+            "Listo, le acabas de enviar un formulario para que vincule su cuenta del SAT a Heru en el mensaje anterior."
+        );
+
+        !lastMessageIsLinkingSat &&
+          setMessagesHistory((prev) => prev.slice(0, -1));
         setMessagesHistory((prev) => [
           ...prev,
           {

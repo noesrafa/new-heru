@@ -72,7 +72,7 @@ const Navbar = () => {
         <div className="absolute bottom-[64px] sm:bottom-[70px] left-0 w-full px-5">
           <button
             onClick={() => navigate("/chat/new")}
-            className="w-full font-medium text-white px-4 py-3 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full justify-center flex items-center gap-2"
+            className="w-full font-medium text-white px-4 py-3 bg-gradient-to-b from-blue-400 to-blue-600 rounded-full justify-center flex items-center gap-2"
           >
             Nuevo chat
             <ArrowRight weight="bold" className="size-5" />
