@@ -24,7 +24,6 @@ function useOpenAI() {
   const [messagesHistory, setMessagesHistory] = useState(initialMessages);
 
   useEffect(() => {
-    // if last message is from the role assistant setISLoading to false
     if (messagesHistory[messagesHistory.length - 1]?.role === "assistant") {
       setIsLoading({ ...isLoading, createMessage: false });
     }
@@ -226,7 +225,7 @@ function useOpenAI() {
             return {
               tool_call_id: tool.id,
               output:
-                "Listo, le acabas de enviar un formulario para que vincule su cuenta del SAT a Heru en el mensaje anterior.",
+                "Listo, en este mismo chat le acabas de enviar un formulario para que vincule su cuenta del SAT a Heru en el mensaje anterior.",
             };
           }
         })
@@ -238,7 +237,7 @@ function useOpenAI() {
         const lastMessageIsLinkingSat = toolOutputs.some(
           (output) =>
             output.output ===
-            "Listo, le acabas de enviar un formulario para que vincule su cuenta del SAT a Heru en el mensaje anterior."
+            "Listo, en este mismo chat le acabas de enviar un formulario para que vincule su cuenta del SAT a Heru en el mensaje anterior."
         );
 
         !lastMessageIsLinkingSat &&
