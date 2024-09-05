@@ -1,3 +1,4 @@
+//@ts-nocheck
 import ChatLayout from "../layouts/ChatLayout";
 import {
   CaretLeft,
@@ -9,25 +10,24 @@ import {
 } from "@phosphor-icons/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useOpenAI from "../hooks/useOpenAI";
 import { useEffect } from "react";
 import { useRef } from "react";
-import useBedrock from "../hooks/useBedrock";
 
 const Chat = () => {
   const [userMessage, setUserMessage] = useState("");
   const lastMessageRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [sessionId, setSessionId] = useState(null);
 
-  const { createMessage, isLoading, messages } = useBedrock();
+  const { createMessage, isLoading, messages } = useOpenAI();
   const navigate = useNavigate();
 
   const handleSendMessage = async (userMessage: string, event) => {
     event.preventDefault();
-    if (!userMessage || !sessionId) return;
+    if (!userMessage || isLoading.categorizeUserMessage) return;
     setUserMessage("");
 
-    await createMessage(userMessage, sessionId);
+    await createMessage({ message: userMessage });
   };
 
   useEffect(() => {
@@ -50,10 +50,6 @@ const Chat = () => {
 
   useEffect(() => {
     inputRef.current.focus();
-
-    // generate random sessionId
-    const sessionId = Math.random().toString(36).substring(2, 15);
-    setSessionId(sessionId);
   }, []);
 
   return (
