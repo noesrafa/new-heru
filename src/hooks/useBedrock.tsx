@@ -34,6 +34,10 @@ function useBedrock() {
 
       const data = await response.json();
 
+      if (!data.completion) {
+        throw new Error("No completion");
+      }
+
       setMessagesHistory((prev) => prev.slice(0, -1));
       setMessagesHistory((prev) => [
         ...prev,
@@ -43,7 +47,11 @@ function useBedrock() {
         },
       ]);
     } catch (error) {
-      console.error(error);
+      setMessagesHistory((prev) => prev.slice(0, -1));
+      setMessagesHistory((prev) => [
+        ...prev,
+        { message: "Error al analizar", role: "assistant" },
+      ]);
     } finally {
       setIsLoading({ ...isLoading, createMessage: false });
     }
