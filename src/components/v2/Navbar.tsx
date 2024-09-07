@@ -32,7 +32,7 @@ const Navbar = () => {
   return (
     <div className="fixed bottom-0 w-full max-w-2xl pb-2 z-10">
       <div className="h-6 w-full bg-c-neutral-100 max-w-2xl fixed bottom-0 z-5"></div>
-      <div className="h-20 w-full bg-gradient-to-t from-c-neutral-100 to-[#F3F4F7]/20 max-w-2xl fixed bottom-6 z-5 pointer-events-none"></div>
+      <div className="h-[40px] w-full bg-gradient-to-t from-c-neutral-100 to-[#F3F4F7]/20 max-w-2xl fixed bottom-6 z-5 pointer-events-none"></div>
       <div className="flex items-center justify-around w-full px-2">
         {categories.map((category) => (
           <NavLink

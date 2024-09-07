@@ -41,7 +41,7 @@ import {
 } from "react-router-dom";
 import Chats from "./pages/Chats.tsx";
 import Chat from "./pages/Chat.tsx";
-import Home from "./pages/v2/Home.tsx";
+import Home from "./pages/v2/Home/index.tsx";
 import Notifications from "./pages/v2/Notifications.tsx";
 import Documents from "./pages/v2/Documents.tsx";
 
