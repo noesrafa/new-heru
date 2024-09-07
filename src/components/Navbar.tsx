@@ -6,7 +6,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   console.log(location.pathname);
-  
 
   const categories = [
     {
@@ -33,41 +32,45 @@ const Navbar = () => {
   return (
     <div
       className="flex items-center gap-2 fixed bottom-0 w-full justify-around max-w-[600px] p-2 text-blue-950
-     bg-[#f3f3f1] z-10 mx-auto border-x border-neutral-200 fade-in"
+     z-10 mx-auto border-x border-neutral-200 fade-in"
     >
-      {categories.map((category) => (
-        <NavLink
-          to={category.route}
-          key={category.route}
-          className={({ isActive, isPending }) => {
-            return `flex flex-col items-center gap-1 p-1 sm:p-2 bg-transparent sm:hover:bg-blue-950/5 w-full rounded-lg transition`;
-          }}
-        >
-          <div className="relative">
-            {category.label === "Notificaciones" && (
-              <span className="size-3 bg-blue-600 text-white flex items-center justify-center text-xs rounded-full absolute -top-1 -right-1"></span>
-            )}
-            {activeCategory === category
-              ? React.cloneElement(category.icon, {
-                  weight: "bold",
-                  className: "size-5 opacity-100",
-                })
-              : category.icon}
-          </div>
-          <span
-            className={`text-xs opacity-60 ${
-              activeCategory === category
-                ? "font-bold !opacity-100"
-                : "font-normal"
-            }`}
-          >
-            {category.label}
-          </span>
-        </NavLink>
-      ))}
-      <div className="w-full fixed bottom-[60px] left-0">
+      <div className="w-full fixed bottom-0 left-0">
+        <div className="h-10 bg-[#f3f3f1] z-5 w-full"></div>
         <div className="w-full max-w-[600px] bg-gradient-to-t from-[#f3f3f1] to-[#f3f3f1]/20 border-x border-neutral-200 mx-auto left-0 h-20 z-5"></div>
       </div>
+      <div className="z-10 flex items-center justify-around w-full">
+        {categories.map((category) => (
+          <NavLink
+            to={category.route}
+            key={category.route}
+            className={({ isActive, isPending }) => {
+              return `flex flex-col items-center gap-1 p-1 sm:p-2 bg-transparent sm:hover:bg-blue-950/5 w-full rounded-lg transition`;
+            }}
+          >
+            <div className="relative">
+              {category.label === "Notificaciones" && (
+                <span className="size-3 bg-blue-600 text-white flex items-center justify-center text-xs rounded-full absolute -top-1 -right-1"></span>
+              )}
+              {activeCategory === category
+                ? React.cloneElement(category.icon, {
+                    weight: "bold",
+                    className: "size-5 opacity-100",
+                  })
+                : category.icon}
+            </div>
+            <span
+              className={`text-xs opacity-60 ${
+                activeCategory === category
+                  ? "font-bold !opacity-100"
+                  : "font-normal"
+              }`}
+            >
+              {category.label}
+            </span>
+          </NavLink>
+        ))}
+      </div>
+
       {activeCategory === categories[1] && (
         <div className="absolute bottom-[64px] sm:bottom-[70px] left-0 w-full px-5">
           <button
