@@ -95,13 +95,13 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
   return (
     <div className="w-full fixed bottom-0 max-w-2xl px-3 sm:px-0 shadow-sm fade-in z-20">
       <div
-        className={`bg-white/80 border-2 border-white backdrop-blur-xl w-full rounded-t-lg p-3 sm:p-4 shadow-inverse`}
+        className={`bg-white/70 border-2 border-white backdrop-blur-xl w-full rounded-t-lg p-3 sm:p-4 shadow-inverse`}
       >
         {/* ========= CHAT ========== */}
         <div
           className={`overflow-hidden transition-all duration-300 ease-custom-ease w-full ${
             isChatOpen
-              ? "h-[calc(100dvh-180px)] sm:h-[calc(100dvh-300px)] mb-3"
+              ? "h-[calc(100dvh-160px)] sm:h-[calc(100dvh-300px)] mb-3"
               : "h-0"
           }`}
         >

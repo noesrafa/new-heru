@@ -1,4 +1,4 @@
-import { User } from "@phosphor-icons/react";
+import { ShoppingCartSimple, User } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 
 const Header = () => {
@@ -21,7 +21,9 @@ const Header = () => {
     >
       <div
         className={`flex justify-between items-center backdrop-blur-xl ${
-          scrollY > 32 ? "border-2 border-white rounded-xl bg-white/70 shadow-sm px-3 py-2" : "px-5 py-3"
+          scrollY > 32
+            ? "border-2 border-white rounded-xl bg-white/70 shadow px-3 py-2"
+            : "px-5 py-3"
         }`}
       >
         <h1 className="text-2xl text-blue-600 font-medium flex items-center gap-2">
@@ -30,7 +32,10 @@ const Header = () => {
             Plus
           </span>
         </h1>
-        <User className="size-6 text-blue-950" weight="fill" />
+        <div className="flex items-center gap-4">
+          <ShoppingCartSimple className="size-6 text-blue-950" weight="fill" />
+          <User className="size-6 text-blue-950" weight="fill" />
+        </div>
       </div>
     </div>
   );

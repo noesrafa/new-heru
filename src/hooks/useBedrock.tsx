@@ -51,7 +51,7 @@ function useBedrock() {
       setMessagesHistory((prev) => prev.slice(0, -1));
       setMessagesHistory((prev) => [
         ...prev,
-        { message: "Error al analizar", role: "assistant" },
+        { message: "Error al analizar, intenta de nuevo", role: "assistant" },
       ]);
     } finally {
       setIsLoading({ ...isLoading, createMessage: false });
