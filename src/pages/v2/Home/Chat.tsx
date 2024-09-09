@@ -29,7 +29,7 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
   useEffect(() => {
     const isMobile = window.matchMedia("(max-width: 640px)").matches;
 
-    if (isMobile) {
+    if (false) {
       if (lastMessageRef.current && messages.length > 5) {
         lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
       } else {
@@ -80,16 +80,28 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
     if (messages.length > 0) setIsChatOpen(true);
   }, [messages]);
 
+  useEffect(() => {
+    if (isChatOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isChatOpen]);
+
   return (
-    <div className="w-full fixed bottom-0 max-w-2xl px-3 sm:px-0 shadow-sm fade-in">
+    <div className="w-full fixed bottom-0 max-w-2xl px-3 sm:px-0 shadow-sm fade-in z-20">
       <div
-        className={`bg-white/70 border-2 border-white backdrop-blur-xl w-full rounded-t-lg p-4 shadow-inverse`}
+        className={`bg-white/80 border-2 border-white backdrop-blur-xl w-full rounded-t-lg p-3 sm:p-4 shadow-inverse`}
       >
         {/* ========= CHAT ========== */}
         <div
           className={`overflow-hidden transition-all duration-300 ease-custom-ease w-full ${
             isChatOpen
-              ? "h-[calc(100dvh-250px)] sm:h-[calc(100dvh-300px)] mb-3"
+              ? "h-[calc(100dvh-180px)] sm:h-[calc(100dvh-300px)] mb-3"
               : "h-0"
           }`}
         >
@@ -115,7 +127,7 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
         {/* =========== INPUT ============ */}
         <div className="flex justify-between gap-2">
           <div className="flex flex-col gap-2 w-full">
-            <h4 className="text-blue-400 uppercase text-xs -mb-2 font-medium">
+            <h4 className="text-blue-400 uppercase text-xs -mb-2 font-bold">
               Heru AI{" "}
               <Sparkle className="size-3 inline-block mb-1" weight="fill" />
             </h4>
@@ -137,12 +149,12 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
           <div>
             <button
               disabled={isLoading.createMessage}
-              className={`size-6 sm:size-7 flex items-center justify-center bg-gradient-to-b from-blue-400 to-blue-500 rounded-full mt-3 transition-all duration-250 ease-custom-ease disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`size-6 sm:size-7 flex items-center justify-center bg-blue-500 rounded-full mt-3 transition-all duration-250 ease-custom-ease disabled:opacity-50 disabled:cursor-not-allowed ${
                 showSendButton || isChatOpen ? "scale-100" : "scale-0"
               }`}
               onClick={handleSendMessage}
             >
-              <ArrowUp className="size-[18px] text-white/80" weight="bold" />
+              <ArrowUp className="size-[18px] text-white" weight="bold" />
             </button>
           </div>
         </div>

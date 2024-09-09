@@ -1,9 +1,11 @@
-import React from "react";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 const Invoices = () => {
   return (
     <div className="bg-white/50 border border-white rounded-xl p-3 flex flex-col gap-1 items-center text-sm w-full">
-      <h4 className="text-sm font-medium opacity-50">Julio 2024</h4>
+      <h4 className="text-sm font-medium opacity-50 flex items-center gap-2">
+        <CaretLeft /> Octubre 2024 <CaretRight />
+      </h4>
       <div className="flex items-center justify-between gap-2 w-full">
         <div className="flex items-center flex-col w-full">
           <p className="text-lg font-bold">12</p>

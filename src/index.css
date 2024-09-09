@@ -117,3 +117,23 @@ body {
 .animation-delay-400 {
   animation-delay: 400ms;
 }
+
+.border-custom {
+  border-style: dashed;
+  border-width: 2px;
+  border-spacing: 12px;
+  background-clip: padding-box;
+}
+
+@keyframes slowMove {
+  0%, 100% { transform: translate(-50%, -50%) translateX(-5%); }
+  50% { transform: translate(-50%, -50%) translateX(5%); }
+}
+
+.slow-move {
+  animation: slowMove 5s ease-in-out infinite;
+}
+
+.slow-move-reverse {
+  animation: slowMove 5s ease-in-out infinite reverse;
+}

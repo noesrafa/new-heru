@@ -1,71 +1,67 @@
-// import { StrictMode } from "react";
-// import "./index.css";
-// import { createRoot } from "react-dom/client";
-// import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import Chats from "./pages/Chats.tsx";
-// import Documents from "./pages/Documents.tsx";
-// import Notifications from "./pages/Notifications.tsx";
-// import Chat from "./pages/Chat.tsx";
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <Chats />,
-//   },
-//   {
-//     path: "notifications",
-//     element: <Notifications />,
-//   },
-//   {
-//     path: "documents",
-//     element: <Documents />,
-//   },
-//   {
-//     path: "chat/:id",
-//     element: <Chat />,
-//   },
-// ]);
-
-// createRoot(document.getElementById("root")!).render(
-//   <StrictMode>
-//     <RouterProvider router={router} />
-//   </StrictMode>
-// );
-import { StrictMode } from "react";
+import { StrictMode, useEffect, useState } from "react";
 import "./index.css";
 import { createRoot } from "react-dom/client";
 import {
-  createBrowserRouter,
   createHashRouter,
   RouterProvider,
+  Navigate,
+  Outlet,
 } from "react-router-dom";
-import Chats from "./pages/Chats.tsx";
 import Chat from "./pages/Chat.tsx";
 import Home from "./pages/v2/Home/index.tsx";
 import Notifications from "./pages/v2/Notifications.tsx";
 import Documents from "./pages/v2/Documents.tsx";
+import Login from "./pages/v2/Login.tsx";
 
-const router = createHashRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "notifications",
-    element: <Notifications />,
-  },
-  {
-    path: "documents",
-    element: <Documents />,
-  },
-  {
-    path: "chat/:id",
-    element: <Chat />,
-  },
-]);
+const ProtectedRoute = ({ isLoggedIn }) => {
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+  return <Outlet />;
+};
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
-);
+const App = () => {
+  const [haveAccessToken, setHaveAccessToken] = useState(false);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+
+    setHaveAccessToken(!!accessToken);
+  }, []);
+
+  const router = createHashRouter([
+    {
+      path: "/login",
+      element: haveAccessToken ? <Navigate to="/" replace /> : <Login />,
+    },
+    {
+      element: <ProtectedRoute isLoggedIn={haveAccessToken} />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "notifications",
+          element: <Notifications />,
+        },
+        {
+          path: "documents",
+          element: <Documents />,
+        },
+        {
+          path: "chat/:id",
+          element: <Chat />,
+        },
+      ],
+    },
+  ]);
+
+  return (
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  );
+};
+
+createRoot(document.getElementById("root")!).render(<App />);

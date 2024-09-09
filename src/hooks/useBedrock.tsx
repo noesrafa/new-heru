@@ -5,7 +5,7 @@ function useBedrock() {
     createMessage: false,
   });
   const [messagesHistory, setMessagesHistory] = useState([
-    
+    // { message: "Analizando", role: "current-action" }
   ]);
 
   const createMessage = async (message: string, sessionId: string) => {

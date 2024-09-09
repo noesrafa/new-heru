@@ -13,14 +13,14 @@ const ChatContent = ({ messages, lastMessageRef }) => {
           if (message.role === "current-action") {
             return (
               <div
-                className="text-sm mt-2 px-3 py-1 rounded-xl bg-blue-50 w-fit gap-3 flex justify-between rounded-tl-none text-blue-500 border border-blue-200"
+                className="text-sm mt-2 rounded-xl  w-fit gap-2 flex justify-between rounded-tl-none text-blue-500 "
                 key={`${index}-${message.role}`}
               >
                 {capitalizeFirstLetter(message.message)}
-                <div className="flex items-center gap-1">
-                  <div className="size-3 bg-blue-300 border border-blue-400 rounded animate-pulse-scale"></div>
-                  <div className="size-3 bg-blue-300 border border-blue-400 rounded animate-pulse-scale animation-delay-200"></div>
-                  <div className="size-3 bg-blue-300 border border-blue-400 rounded animate-pulse-scale animation-delay-400"></div>
+                <div className="flex items-center gap-1 mt-0.5">
+                  <div className="size-2 bg-blue-300 border border-blue-400 rounded-full animate-pulse-scale"></div>
+                  <div className="size-2 bg-blue-300 border border-blue-400 rounded-full animate-pulse-scale animation-delay-200"></div>
+                  <div className="size-2 bg-blue-300 border border-blue-400 rounded-full animate-pulse-scale animation-delay-400"></div>
                 </div>
               </div>
             );
@@ -76,7 +76,7 @@ const ChatContent = ({ messages, lastMessageRef }) => {
             >
               <div>
                 <h4
-                  className={`text-[10px] opacity-60 font-medium mb-0.5 ${
+                  className={`text-[10px] opacity-30 font-bold mb-0.5 text-blue-950 ${
                     message.role === "assistant" ? "" : "text-right"
                   }`}
                 >
@@ -84,10 +84,10 @@ const ChatContent = ({ messages, lastMessageRef }) => {
                 </h4>
               </div>
               <p
-                className={`w-fit px-2 py-2 text-sm rounded-xl ${
+                className={`w-fit  text-sm rounded-xl ${
                   message.role === "assistant"
-                    ? "rounded-tl-none text-blue-950 bg-blue-100"
-                    : "rounded-br-none bg-white shadow-sm "
+                    ? "rounded-tl-none text-blue-950 "
+                    : "rounded-br-none bg-blue-100 px-2 py-2"
                 }`}
               >
                 {message.message}

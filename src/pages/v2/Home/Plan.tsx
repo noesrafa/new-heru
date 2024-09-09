@@ -13,7 +13,7 @@ const Plan = () => {
       <div className="flex items-center gap-2 bg-blue-100 px-2 py-1 w-fit absolute top-3 left-3 rounded-full">
         <Trophy weight="duotone" />
         <p className="flex gap-2 items-center text-blue-950 text-xs leading-[18px] font-medium undefined undefined">
-          Plan activo
+          Tu suscripción
         </p>
       </div>
       <img
@@ -22,7 +22,7 @@ const Plan = () => {
       />
       <div className="p-3">
         <h3 className="font-bold text-base">Heru Plus</h3>
-        <p className="text-sm opacity-50 mb-2">$960 / Año</p>
+        <p className="text-sm opacity-50 mb-2">$599 / Mensual</p>
         <hr />
         <ul className="flex flex-col gap-1 mt-3 text-sm">
           {benefits.map((benefit) => (

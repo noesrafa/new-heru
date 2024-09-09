@@ -37,7 +37,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="fixed bottom-0 w-full max-w-2xl pb-2 z-10">
+    <div className="fixed bottom-0 w-full max-w-2xl pb-2 z-30">
       <div className="h-6 w-full bg-c-neutral-100  fixed left-0 bottom-0 z-5"></div>
       <div className="h-[40px] w-full bg-gradient-to-t from-c-neutral-100 to-[#F3F4F7]/20 fixed bottom-6 left-0 z-5 pointer-events-none"></div>
       <div className="flex items-center justify-around w-full px-2">

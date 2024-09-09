@@ -6,6 +6,8 @@ import FiscalProfileOverview from "./FiscalProfileOverview";
 import Checklist from "./Checklist";
 import Plan from "./Plan";
 import Invoices from "./Invoices";
+import { Plus } from "@phosphor-icons/react";
+import AddSection from "./AddSection";
 
 const Home = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -31,6 +33,7 @@ const Home = () => {
           </div>
           <div className="flex flex-col gap-4">
             <Plan />
+            <AddSection />
           </div>
         </div>
       </div>
