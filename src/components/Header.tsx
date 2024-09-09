@@ -20,8 +20,8 @@ const Header = () => {
       }`}
     >
       <div
-        className={`flex justify-between items-center px-5 py-3 backdrop-blur-lg ${
-          scrollY > 32 ? "border border-neutral-300 rounded-lg bg-white/50" : ""
+        className={`flex justify-between items-center backdrop-blur-xl ${
+          scrollY > 32 ? "border-2 border-white rounded-xl bg-white/70 shadow-sm px-3 py-2" : "px-5 py-3"
         }`}
       >
         <h1 className="text-2xl text-blue-600 font-medium flex items-center gap-2">

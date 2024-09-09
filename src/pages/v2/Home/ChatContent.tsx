@@ -4,7 +4,7 @@ import { CheckCircle, ShieldCheck } from "@phosphor-icons/react";
 
 const ChatContent = ({ messages, lastMessageRef }) => {
   return (
-    <div className="h-[calc(100%-32px)]">
+    <div className="h-[calc(100%-64px)]">
       <div className="flex flex-col gap-2 mb-20 overflow-y-auto h-full">
         {messages.map((message, index) => {
           const capitalizeFirstLetter = (string: string) =>
@@ -12,12 +12,17 @@ const ChatContent = ({ messages, lastMessageRef }) => {
 
           if (message.role === "current-action") {
             return (
-              <p
-                className="text-sm pulse-opacity mt-2"
+              <div
+                className="text-sm mt-2 px-3 py-1 rounded-xl bg-blue-50 w-fit gap-3 flex justify-between rounded-tl-none text-blue-500 border border-blue-200"
                 key={`${index}-${message.role}`}
               >
                 {capitalizeFirstLetter(message.message)}
-              </p>
+                <div className="flex items-center gap-1">
+                  <div className="size-3 bg-blue-300 border border-blue-400 rounded animate-pulse-scale"></div>
+                  <div className="size-3 bg-blue-300 border border-blue-400 rounded animate-pulse-scale animation-delay-200"></div>
+                  <div className="size-3 bg-blue-300 border border-blue-400 rounded animate-pulse-scale animation-delay-400"></div>
+                </div>
+              </div>
             );
           }
 
@@ -75,14 +80,14 @@ const ChatContent = ({ messages, lastMessageRef }) => {
                     message.role === "assistant" ? "" : "text-right"
                   }`}
                 >
-                  {message.role === "assistant" ? "Heru AI" : ""}
+                  {message.role === "assistant" ? "Heru-AI" : ""}
                 </h4>
               </div>
               <p
                 className={`w-fit px-2 py-2 text-sm rounded-xl ${
                   message.role === "assistant"
-                    ? "bg-white shadow-sm rounded-tl-none"
-                    : "rounded-br-none text-blue-950 bg-blue-100"
+                    ? "rounded-tl-none text-blue-950 bg-blue-100"
+                    : "rounded-br-none bg-white shadow-sm "
                 }`}
               >
                 {message.message}

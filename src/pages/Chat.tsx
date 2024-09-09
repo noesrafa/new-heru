@@ -80,19 +80,19 @@ const Chat = () => {
       </div>
 
       <div className="p-4">
-        <div className="flex flex-col gap-2 mb-20">
+        <div className="flex flex-col gap-2 mb-20">sdf
           {messages.map((message, index) => {
             const capitalizeFirstLetter = (string: string) =>
               string?.charAt(0)?.toUpperCase() + string?.slice(1);
 
             if (message.role === "current-action") {
               return (
-                <p
-                  className="text-sm pulse-opacity mt-2"
+                <div
+                  className="text-sm pulse-opacity mt-2 px-3 py-1 rounded-md bg-neutral-500 w-full"
                   key={`${index}-${message.role}`}
                 >
                   {capitalizeFirstLetter(message.message)}
-                </p>
+                </div>
               );
             }
 

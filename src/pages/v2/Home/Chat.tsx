@@ -1,5 +1,10 @@
-import { PaperPlaneRight, Sparkle, X } from "@phosphor-icons/react";
-import React, { useEffect, useRef, useState } from "react";
+import {
+  ArrowUp,
+  Sparkle,
+  TrashSimple,
+  XCircle,
+} from "@phosphor-icons/react";
+import { useEffect, useRef, useState } from "react";
 import ChatContent from "./ChatContent";
 import useBedrock from "../../../hooks/useBedrock";
 
@@ -7,12 +12,15 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
   const [userMessage, setUserMessage] = useState("");
   const [sessionId, setSessionId] = useState(null);
   const lastMessageRef = useRef<HTMLDivElement>(null);
+  const [showSendButton, setShowSendButton] = useState(false);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const { createMessage, isLoading, messages } = useBedrock();
+  const { createMessage, isLoading, messages, setMessagesHistory } =
+    useBedrock();
 
   const handleSendMessage = async (event) => {
     event.preventDefault();
-    if (!userMessage || !sessionId) return;
+    if (!userMessage || !sessionId || isLoading.createMessage) return;
     setUserMessage("");
 
     await createMessage(userMessage, sessionId);
@@ -36,9 +44,10 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
     }
   }, [messages]);
 
+  const generateSessionId = () => Math.random().toString(36).substring(2, 15);
+
   useEffect(() => {
-    // generate random sessionId
-    const sessionId = Math.random().toString(36).substring(2, 15);
+    const sessionId = generateSessionId();
     setSessionId(sessionId);
   }, []);
 
@@ -57,23 +66,47 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
     };
   }, [userMessage, sessionId]);
 
+  const handleClearChat = () => {
+    if (isLoading.createMessage) return;
+
+    setUserMessage("");
+    setSessionId(generateSessionId());
+    setMessagesHistory([]);
+    inputRef.current?.focus();
+  };
+
+  useEffect(() => {
+    if (messages.length === 0) setIsChatOpen(false);
+    if (messages.length > 0) setIsChatOpen(true);
+  }, [messages]);
+
   return (
-    <div className="w-full fixed bottom-0 max-w-2xl px-3 sm:px-0 shadow-sm">
+    <div className="w-full fixed bottom-0 max-w-2xl px-3 sm:px-0 shadow-sm fade-in">
       <div
-        className={`bg-white/70 border-2 border-white backdrop-blur-lg w-full rounded-t-lg p-4`}
+        className={`bg-white/70 border-2 border-white backdrop-blur-xl w-full rounded-t-lg p-4 shadow-inverse`}
       >
         {/* ========= CHAT ========== */}
         <div
           className={`overflow-hidden transition-all duration-300 ease-custom-ease w-full ${
-            isChatOpen ? "h-[calc(100dvh-250px)] sm:h-[calc(100dvh-300px)] mb-3" : "h-0"
+            isChatOpen
+              ? "h-[calc(100dvh-250px)] sm:h-[calc(100dvh-300px)] mb-3"
+              : "h-0"
           }`}
         >
-          <div className="">
+          <div className="flex justify-between items-center mb-4">
             <button
-              className="bg-neutral-400/80 rounded-full p-1"
+              disabled={isLoading.createMessage}
+              className="disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setIsChatOpen(false)}
             >
-              <X className="size-3 text-neutral-100" weight="bold" />
+              <XCircle className="size-6 text-neutral-400" weight="fill" />
+            </button>
+            <button
+              disabled={isLoading.createMessage}
+              className={`disabled:opacity-50 disabled:cursor-not-allowed`}
+              onClick={handleClearChat}
+            >
+              <TrashSimple className="size-5 text-neutral-400" weight="bold" />
             </button>
           </div>
           <ChatContent messages={messages} lastMessageRef={lastMessageRef} />
@@ -82,31 +115,34 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
         {/* =========== INPUT ============ */}
         <div className="flex justify-between gap-2">
           <div className="flex flex-col gap-2 w-full">
-            <h4 className="text-blue-400 uppercase text-xs -mb-2">
+            <h4 className="text-blue-400 uppercase text-xs -mb-2 font-medium">
               Heru AI{" "}
-              <Sparkle className="size-3 inline-block mb-1" weight="bold" />
+              <Sparkle className="size-3 inline-block mb-1" weight="fill" />
             </h4>
             <textarea
+              ref={inputRef}
               value={userMessage}
               onChange={(e) => setUserMessage(e.target.value)}
-              onFocus={() => setIsChatOpen(true)}
-              className="text-neutral-500 bg-transparent outline-none w-full h-full resize-none min-h-[80px]"
-              placeholder="Escribe tu consulta fiscal aquí"
+              onFocus={() => {
+                messages.length > 0 && setIsChatOpen(true);
+                setShowSendButton(true);
+              }}
+              onBlur={() => setShowSendButton(false)}
+              className="text-neutral-500 bg-transparent outline-none w-full h-full resize-none min-h-[90px]"
+              placeholder="Escribe tu consulta aquí"
               rows={3}
             />
           </div>
 
           <div>
             <button
-              className={`h-8 w-8 flex items-center justify-center bg-gradient-to-b from-blue-400 to-blue-500 rounded-xl mt-3 transition-all duration-250 ease-custom-ease ${
-                isChatOpen ? "scale-100" : "scale-0"
+              disabled={isLoading.createMessage}
+              className={`size-6 sm:size-7 flex items-center justify-center bg-gradient-to-b from-blue-400 to-blue-500 rounded-full mt-3 transition-all duration-250 ease-custom-ease disabled:opacity-50 disabled:cursor-not-allowed ${
+                showSendButton || isChatOpen ? "scale-100" : "scale-0"
               }`}
               onClick={handleSendMessage}
             >
-              <PaperPlaneRight
-                className="size-[18px] text-white/80"
-                weight="fill"
-              />
+              <ArrowUp className="size-[18px] text-white/80" weight="bold" />
             </button>
           </div>
         </div>

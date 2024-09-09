@@ -4,8 +4,9 @@ function useBedrock() {
   const [isLoading, setIsLoading] = useState({
     createMessage: false,
   });
-  const [threadId, setThreadId] = useState<string | null>(null);
-  const [messagesHistory, setMessagesHistory] = useState([]);
+  const [messagesHistory, setMessagesHistory] = useState([
+    
+  ]);
 
   const createMessage = async (message: string, sessionId: string) => {
     setIsLoading({ ...isLoading, createMessage: true });
@@ -15,7 +16,7 @@ function useBedrock() {
 
       setMessagesHistory((prev) => [
         ...prev,
-        { message: "Analizando...", role: "current-action" },
+        { message: "Analizando", role: "current-action" },
       ]);
 
       const response = await fetch(
@@ -57,7 +58,12 @@ function useBedrock() {
     }
   };
 
-  return { isLoading, messages: messagesHistory, threadId, createMessage };
+  return {
+    isLoading,
+    messages: messagesHistory,
+    createMessage,
+    setMessagesHistory,
+  };
 }
 
 export default useBedrock;

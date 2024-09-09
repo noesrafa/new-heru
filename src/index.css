@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bezier-1: cubic-bezier(1,-0.29,.01,1.42);
+  --bezier-2: cubic-bezier(.36,.01,.92,-0.64);
+}
+
 body {
-  background: theme('colors.c-neutral.100');
+  background: theme("colors.c-neutral.100");
   color: #172554;
 }
 
@@ -87,4 +92,28 @@ body {
   transform: scale(0);
   width: 0px;
   height: 0px;
+}
+
+.shadow-inverse {
+  -webkit-box-shadow: -1px 1px 53px -14px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: -1px 1px 53px -14px rgba(0, 0, 0, 0.15);
+  box-shadow: -1px 1px 53px -14px rgba(0, 0, 0, 0.15);
+}
+
+
+@keyframes pulseScale {
+  0%, 100% { transform: scale(0); }
+  50% { transform: scale(1); }
+}
+
+.animate-pulse-scale {
+  animation: pulseScale 1.4s cubic-bezier(1,-0.1,0,1.08) infinite;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
 }
