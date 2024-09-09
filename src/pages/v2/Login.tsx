@@ -9,6 +9,7 @@ const Login = () => {
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [otp, setOtp] = useState("");
 
+  const cellphoneRef = useRef<HTMLInputElement>(null);
   const otpRef = useRef<HTMLInputElement>(null);
   const formPhoneRef = useRef<HTMLFormElement>(null);
   const formOTPRef = useRef<HTMLFormElement>(null);
@@ -89,6 +90,7 @@ const Login = () => {
   };
 
   useEffect(() => {
+    cellphoneRef.current?.focus();
     const accessToken = localStorage.getItem("access_token");
     if (accessToken) {
       navigate("/");
@@ -97,76 +99,65 @@ const Login = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen p-4">
-      <div className="size-[1500px] rounded-full bg-blue-300 fixed top-[0%] sm:top-[-30%] left-[30%] transform -translate-x-1/2 -translate-y-1/2 blur-3xl slow-move"></div>
+      <div className="flex flex-col items-center justify-center gap-2 bg-white/80 px-6 py-8 rounded-xl">
+        <h1 className="text-4xl font-medium text-center text-blue-500 z-10">
+          heru
+        </h1>
+        <h4 className="text-lg sm:text-2xl text-center opacity-70 z-10 text-neutral-500 font-light">
+          Tus impuestos sin complicaciones{" "}
+          <SealCheck className="inline-block" />
+        </h4>
 
-      <div className="size-[1000px] rounded-full bg-blue-500 fixed top-[30%] sm:top-[30%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 blur-3xl slow-move-reverse"></div>
-
-      <div className="size-[1500px] rounded-full bg-blue-400 fixed top-[-100%] sm:top-[-50%] left-[80%] transform -translate-x-1/2 -translate-y-1/2 blur-3xl slow-move"></div>
-
-      <h1 className="text-4xl font-medium text-center text-white z-10">heru</h1>
-      <h4 className="text-xl sm:text-2xl text-center opacity-60 z-10 text-white">
-        Tus impuestos sin complicaciones <SealCheck className="inline-block" />
-      </h4>
-      {step === "phone" && (
-        <form
-          className="max-w-[400px] mt-8 mx-auto relative z-10 w-full flex gap-2 flex-col"
-          onSubmit={sendOTP}
-          ref={formPhoneRef}
-        >
-          <input
-            type="tel"
-            placeholder="Número de teléfono"
-            className="p-2 rounded-xl  text-center bg-white w-full h-12"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <button
-            disabled={isLoading}
-            type="submit"
-            className="bg-blue-50 disabled:opacity-50 text-blue-500 flex gap-1 h-12 items-center justify-center rounded-xl border-2 border-white/50 text-nowrap px-3 py-2 border-blue-300"
+        {step === "phone" && (
+          <form
+            className="max-w-[400px] mt-6 mx-auto relative z-10 w-full flex gap-2 flex-col"
+            onSubmit={sendOTP}
+            ref={formPhoneRef}
           >
-            {isLoading ? "Enviando" : "Enviar"}
-            <CaretRight className="inline-block" weight="bold" />
-          </button>
-        </form>
-      )}
-      {step === "otp" && (
-        <form
-          className="max-w-[400px] mt-8 mx-auto relative z-10 w-full flex gap-2 flex-col"
-          onSubmit={verifyOTP}
-          ref={formOTPRef}
-        >
-          <div className="w-full h-[1px] bg-white/20"></div>
-          <p className="text-center text-white opacity-60 text-sm py-3">
-            Ingresa el código de verificación que te enviamos a{" "}
-            <span className="font-medium">{phone}</span>
-          </p>
-          <input
-            type="text"
-            placeholder="Código de verificación"
-            className="p-2 rounded-xl  text-center bg-white w-full h-12"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            ref={otpRef}
-          />
-          <button
-            disabled={isLoading}
-            type="submit"
-            className="bg-blue-50 disabled:opacity-50 text-blue-500 flex gap-1 h-12 items-center justify-center rounded-xl border-2 border-white/50 text-nowrap px-3 py-2 border-blue-300"
+            <input
+              type="tel"
+              placeholder="Número de teléfono"
+              className="p-2 rounded-xl  text-center bg-white border border-neutral-200 w-full h-12"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              ref={cellphoneRef}
+            />
+            <button
+              disabled={isLoading}
+              type="submit"
+              className="bg-blue-50 disabled:opacity-50 text-blue-500 flex gap-1 h-12 items-center justify-center rounded-xl border-2 border-white/50 text-nowrap px-3 py-2 border-blue-300"
+            >
+              {isLoading ? "Enviando" : "Enviar"}
+              <CaretRight className="inline-block" weight="bold" />
+            </button>
+          </form>
+        )}
+        {step === "otp" && (
+          <form
+            className="max-w-[400px] mt-6 mx-auto relative z-10 w-full flex gap-2 flex-col"
+            onSubmit={verifyOTP}
+            ref={formOTPRef}
           >
-            {isLoading ? "Verificando" : "Verificar"}
-            <CaretRight className="inline-block" weight="bold" />
-          </button>
-        </form>
-      )}
-      <p className="absolute bottom-0 left-0 right-0 text-center text-white/60 sm:text-neutral-400 text-[10px] sm:text-xs p-3 max-w-[1000px] mx-auto sm:mb-4 z-10">
-        En Heru, la seguridad de tu cuenta es nuestra máxima prioridad.
-        Solicitamos números de teléfono móvil para el registro y el inicio de
-        sesión porque nos permite enviar un código de un solo uso (OTP, por sus
-        siglas en inglés) para agregar una capa adicional de protección. Este
-        método de autenticación de dos factores es la forma más segura de
-        resguardar tu cuenta e información sensible.
-      </p>
+            <input
+              type="text"
+              placeholder="Código de verificación"
+              className="p-2 rounded-xl  text-center bg-white border border-neutral-200 w-full h-12"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              ref={otpRef}
+            />
+
+            <button
+              disabled={isLoading}
+              type="submit"
+              className="bg-blue-50 disabled:opacity-50 text-blue-500 flex gap-1 h-12 items-center justify-center rounded-xl border-2 border-white/50 text-nowrap px-3 py-2 border-blue-300"
+            >
+              {isLoading ? "Verificando" : "Verificar"}
+              <CaretRight className="inline-block" weight="bold" />
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 };
