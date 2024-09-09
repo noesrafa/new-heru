@@ -3,6 +3,19 @@ import useBedrock from "../../../hooks/useBedrock";
 import { CheckCircle, ShieldCheck } from "@phosphor-icons/react";
 
 const ChatContent = ({ messages, lastMessageRef }) => {
+  const replaceUrlWithLink = (text: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(
+      urlRegex,
+      (url) =>
+        `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${url}</a>`
+    );
+  };
+
+  const renderMessage = (message: string) => {
+    return { __html: replaceUrlWithLink(message) };
+  };
+
   return (
     <div className="h-[calc(100%-64px)]">
       <div className="flex flex-col gap-2 mb-20 overflow-y-auto h-full">
@@ -90,7 +103,7 @@ const ChatContent = ({ messages, lastMessageRef }) => {
                     : "rounded-br-none bg-blue-100 px-2 py-2"
                 }`}
               >
-                {message.message}
+                <div dangerouslySetInnerHTML={renderMessage(message.message)} />
               </p>
             </div>
           );

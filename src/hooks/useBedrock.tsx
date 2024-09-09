@@ -8,7 +8,11 @@ function useBedrock() {
     // { message: "Analizando", role: "current-action" }
   ]);
 
-  const createMessage = async (message: string, sessionId: string) => {
+  const createMessage = async (
+    message: string,
+    sessionId: string,
+    context: string
+  ) => {
     setIsLoading({ ...isLoading, createMessage: true });
 
     try {
@@ -27,8 +31,9 @@ function useBedrock() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            prompt: message,
+            message,
             sessionId,
+            context,
           }),
         }
       );

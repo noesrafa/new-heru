@@ -12,7 +12,6 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname);
 
   const categories = [
     {

@@ -1,6 +1,7 @@
 import { CaretRight, SealCheck } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const Login = () => {
   const otpRef = useRef<HTMLInputElement>(null);
   const formPhoneRef = useRef<HTMLFormElement>(null);
   const formOTPRef = useRef<HTMLFormElement>(null);
+
+  const { setUser } = useUser();
 
   const sendOTP = (e: React.FormEvent<HTMLFormElement>) => {
     if (!phone) return;
@@ -76,6 +79,11 @@ const Login = () => {
           country_code: data.country_code,
         };
 
+        setUser({
+          ...userInfo,
+          taxpayer_info: null,
+        });
+
         localStorage.setItem("user_info", JSON.stringify(userInfo));
 
         setIsLoading(false);
@@ -98,26 +106,26 @@ const Login = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen p-4">
-      <div className="flex flex-col items-center justify-center gap-2 bg-white/80 px-6 py-8 rounded-xl">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center gap-2 rounded-xl mb-10">
         <h1 className="text-4xl font-medium text-center text-blue-500 z-10">
           heru
         </h1>
-        <h4 className="text-lg sm:text-2xl text-center opacity-70 z-10 text-neutral-500 font-light">
+        <h4 className="text-lg sm:text-2xl text-center opacity-70 z-10 text-blue-950 font-light">
           Tus impuestos sin complicaciones{" "}
           <SealCheck className="inline-block" />
         </h4>
 
         {step === "phone" && (
           <form
-            className="max-w-[400px] mt-6 mx-auto relative z-10 w-full flex gap-2 flex-col"
+            className=" mt-6 mx-auto relative z-10 w-full flex gap-2 flex-col"
             onSubmit={sendOTP}
             ref={formPhoneRef}
           >
             <input
               type="tel"
-              placeholder="Número de teléfono"
-              className="p-2 rounded-xl  text-center bg-white border border-neutral-200 w-full h-12"
+              placeholder="Ingresa tu número de teléfono"
+              className="p-2 rounded-xl  text-center bg-white w-full h-10 mb-1"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               ref={cellphoneRef}
@@ -125,23 +133,22 @@ const Login = () => {
             <button
               disabled={isLoading}
               type="submit"
-              className="bg-blue-50 disabled:opacity-50 text-blue-500 flex gap-1 h-12 items-center justify-center rounded-xl border-2 border-white/50 text-nowrap px-3 py-2 border-blue-300"
+              className="bg-blue-500 disabled:opacity-50 text-white flex gap-1 h-10 items-center justify-center rounded-xl text-nowrap px-3 py-2 border-blue-300"
             >
               {isLoading ? "Enviando" : "Enviar"}
-              <CaretRight className="inline-block" weight="bold" />
             </button>
           </form>
         )}
         {step === "otp" && (
           <form
-            className="max-w-[400px] mt-6 mx-auto relative z-10 w-full flex gap-2 flex-col"
+            className=" mt-6 mx-auto relative z-10 w-full flex gap-2 flex-col"
             onSubmit={verifyOTP}
             ref={formOTPRef}
           >
             <input
               type="text"
               placeholder="Código de verificación"
-              className="p-2 rounded-xl  text-center bg-white border border-neutral-200 w-full h-12"
+              className="p-2 rounded-xl  text-center bg-white w-full h-10 mb-1"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               ref={otpRef}
@@ -150,14 +157,19 @@ const Login = () => {
             <button
               disabled={isLoading}
               type="submit"
-              className="bg-blue-50 disabled:opacity-50 text-blue-500 flex gap-1 h-12 items-center justify-center rounded-xl border-2 border-white/50 text-nowrap px-3 py-2 border-blue-300"
+              className="bg-blue-500 disabled:opacity-50 text-white flex gap-1 h-10 items-center justify-center rounded-xl text-nowrap px-3 py-2 border-blue-300"
             >
               {isLoading ? "Verificando" : "Verificar"}
-              <CaretRight className="inline-block" weight="bold" />
             </button>
           </form>
         )}
       </div>
+      <p className="absolute bottom-6 text-sm opacity-40 px-2 text-center">
+        Al continuar, aceptas nuestros{" "}
+        <a href="/terminos-y-condiciones" target="_blank" className="underline">
+          Términos y Condiciones
+        </a>
+      </p>
     </div>
   );
 };

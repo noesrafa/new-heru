@@ -23,8 +23,8 @@ const CheckListItems = [
 const Checklist = () => {
   return (
     <div className="w-full bg-white/50 border border-white rounded-xl p-3 shadow-sm flex flex-col gap-1 h-fit text-sm">
-      {CheckListItems.map((item) => (
-        <div className="flex items-center gap-3">
+      {CheckListItems.map((item, index) => (
+        <div className="flex items-center gap-3" key={index}>
           <div className="text">
             {item.isCompleted ? (
               <CheckCircle className="size-5 text-blue-500" weight="fill" />
@@ -36,7 +36,11 @@ const Checklist = () => {
             )}
           </div>
           <span
-            className={`${item.isCompleted ? "line-through opacity-60" : "hover:underline cursor-pointer"}`}
+            className={`${
+              item.isCompleted
+                ? "line-through opacity-60"
+                : "hover:underline cursor-pointer"
+            }`}
           >
             {item.label}
           </span>

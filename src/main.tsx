@@ -12,6 +12,7 @@ import Home from "./pages/v2/Home/index.tsx";
 import Notifications from "./pages/v2/Notifications.tsx";
 import Documents from "./pages/v2/Documents.tsx";
 import Login from "./pages/v2/Login.tsx";
+import { UserProvider } from "./contexts/UserContext.tsx";
 
 const ProtectedRoute = ({ isLoggedIn }) => {
   if (!isLoggedIn) {
@@ -59,7 +60,9 @@ const App = () => {
 
   return (
     <StrictMode>
-      <RouterProvider router={router} />
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
     </StrictMode>
   );
 };

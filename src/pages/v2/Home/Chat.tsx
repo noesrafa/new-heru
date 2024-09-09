@@ -1,12 +1,8 @@
-import {
-  ArrowUp,
-  Sparkle,
-  TrashSimple,
-  XCircle,
-} from "@phosphor-icons/react";
+import { ArrowUp, Sparkle, TrashSimple, XCircle } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 import ChatContent from "./ChatContent";
 import useBedrock from "../../../hooks/useBedrock";
+import { useUser } from "../../../contexts/UserContext";
 
 const Chat = ({ isChatOpen, setIsChatOpen }) => {
   const [userMessage, setUserMessage] = useState("");
@@ -15,15 +11,34 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
   const [showSendButton, setShowSendButton] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  const { user } = useUser();
+
   const { createMessage, isLoading, messages, setMessagesHistory } =
     useBedrock();
 
   const handleSendMessage = async (event) => {
     event.preventDefault();
-    if (!userMessage || !sessionId || isLoading.createMessage) return;
+    if (!userMessage || !sessionId || isLoading.createMessage || !user) return;
     setUserMessage("");
 
-    await createMessage(userMessage, sessionId);
+    const csf = user.taxpayer_info?.status?.file?.file_url;
+
+    const context = `
+      constancia: es la constancia de situación fiscal
+      compliance: es la opinión de cumplimiento del SAT
+
+      <name>${user.complete_name}</name>
+      <email>${user.email}</email>
+      <phone>${user.phone}</phone>
+      <constancia>${csf}</constancia>
+      <compliance>No disponible por ahora</compliance>
+      <current_date>${new Date().toLocaleDateString()}</current_date>
+      <current_time>${new Date().toLocaleTimeString()}</current_time>
+    `;
+
+    console.log("CONTEXT", context);
+
+    await createMessage(userMessage, sessionId, context);
   };
 
   useEffect(() => {
@@ -82,13 +97,13 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
 
   useEffect(() => {
     if (isChatOpen) {
-      document.body.classList.add('overflow-hidden');
+      document.body.classList.add("overflow-hidden");
     } else {
-      document.body.classList.remove('overflow-hidden');
+      document.body.classList.remove("overflow-hidden");
     }
 
     return () => {
-      document.body.classList.remove('overflow-hidden');
+      document.body.classList.remove("overflow-hidden");
     };
   }, [isChatOpen]);
 
