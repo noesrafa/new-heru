@@ -1,19 +1,70 @@
-import React, { useEffect, useRef, useState } from "react";
-import useBedrock from "../../../hooks/useBedrock";
 import { CheckCircle, ShieldCheck } from "@phosphor-icons/react";
+import { useUser } from "../../../contexts/UserContext";
+import Invoices from "./Invoices";
+import Plan from "./Plan";
 
 const ChatContent = ({ messages, lastMessageRef }) => {
+  const { user } = useUser();
+
+  const csf =
+    user?.taxpayer_info?.status?.file?.file_url || "No disponible por ahora";
+  const compliance =
+    user?.taxpayer_info?.compliance?.file?.file_url ||
+    "No disponible por ahora";
+
   const replaceUrlWithLink = (text: string) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(
+    const csfIdRegex = /#csf-id#/g;
+    const complianceIdRegex = /#compliance-id#/g;
+
+    let processedText = text.replace(
       urlRegex,
       (url) =>
         `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${url}</a>`
     );
+
+    processedText = processedText.replace(
+      csfIdRegex,
+      `<a href="${csf}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">[Descargar constancia de situación fiscal]</a>`
+    );
+
+    processedText = processedText.replace(
+      complianceIdRegex,
+      `<a href="${compliance}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">[Descargar opinión de cumplimiento]</a>`
+    );
+
+    return processedText;
   };
 
   const renderMessage = (message: string) => {
-    return { __html: replaceUrlWithLink(message) };
+    if (message.includes("#invoices-overview-id#")) {
+      return (
+        <div className="mb-1 ml-1">
+          <p className="text-sm text-blue-950 mb-2">
+            Aquí puedes ver un resumen de tu facturación:
+          </p>
+          <div className="shadow rounded-xl max-w-xs">
+            <Invoices />
+          </div>
+        </div>
+      );
+    }
+
+    if (message.includes("#purchase-plan-id#")) {
+      return (
+        <div className="mb-1 ml-1">
+          <p className="text-sm text-blue-950 mb-2">
+            Aquí puedes ver más información sobre tu plan activo:
+          </p>
+          <div className="shadow rounded-xl max-w-xs">
+            <Plan />
+          </div>
+        </div>
+      );
+    }
+
+    const renderMessage = { __html: replaceUrlWithLink(message) };
+    return <div dangerouslySetInnerHTML={renderMessage} />;
   };
 
   return (
@@ -31,9 +82,9 @@ const ChatContent = ({ messages, lastMessageRef }) => {
               >
                 {capitalizeFirstLetter(message.message)}
                 <div className="flex items-center gap-1 mt-0.5">
-                  <div className="size-2 bg-blue-300 border border-blue-400 rounded-full animate-pulse-scale"></div>
-                  <div className="size-2 bg-blue-300 border border-blue-400 rounded-full animate-pulse-scale animation-delay-200"></div>
-                  <div className="size-2 bg-blue-300 border border-blue-400 rounded-full animate-pulse-scale animation-delay-400"></div>
+                  <div className="size-2 bg-blue-400 border border-blue-500 rounded-full animate-pulse-scale"></div>
+                  <div className="size-2 bg-blue-400 border border-blue-500 rounded-full animate-pulse-scale animation-delay-200"></div>
+                  <div className="size-2 bg-blue-400 border border-blue-500 rounded-full animate-pulse-scale animation-delay-400"></div>
                 </div>
               </div>
             );
@@ -97,13 +148,13 @@ const ChatContent = ({ messages, lastMessageRef }) => {
                 </h4>
               </div>
               <p
-                className={`w-fit  text-sm rounded-xl ${
+                className={`w-fit text-sm rounded-xl ${
                   message.role === "assistant"
                     ? "rounded-tl-none text-blue-950 "
                     : "rounded-br-none bg-blue-100 px-2 py-2"
                 }`}
               >
-                <div dangerouslySetInnerHTML={renderMessage(message.message)} />
+                {renderMessage(message.message)}
               </p>
             </div>
           );

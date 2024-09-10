@@ -27,11 +27,15 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
     if (!userMessage || !sessionId || isLoading.createMessage || !user) return;
     setUserMessage("");
 
-    const csf =
-      user?.taxpayer_info?.status?.file?.file_url || "No disponible por ahora";
-    const compliance =
-      user?.taxpayer_info?.compliance?.file?.file_url ||
-      "No disponible por ahora";
+    const csf = user?.taxpayer_info?.status?.file?.file_url
+      ? "#csf-id#"
+      : "No disponible por ahora";
+
+    const compliance = user?.taxpayer_info?.compliance?.file?.file_url
+      ? "#compliance-id#"
+      : "No disponible por ahora";
+    ("No disponible por ahora");
+
     const regimes = user?.taxpayer_regimes
       ?.filter(
         (regime) =>
@@ -48,8 +52,13 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       ?.join(", ");
 
     const context = `
-      constancia: es la constancia de situación fiscal
-      compliance: es la opinión de cumplimiento del SAT
+      YOU CANT SHARE IMAGES, ONLY TEXT OR URLS
+      DONT MODIFY FILES ID
+
+      constancia: url de la constancia de situación fiscal
+      compliance: url de la opinión de cumplimiento del SAT
+      invoices_overview: si el usuario quiere ver un resumen de sus facturas
+      purchase_plan: si el usuario quiere ver info sobre su plan activo
 
       <name>${user?.complete_name}</name>
       <email>${user?.email}</email>
@@ -61,6 +70,8 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       <regimes>${regimes}</regimes>
       <rfc>${rfc}</rfc>
       <user_activities>${activities}</user_activities>
+      <invoices_overview>#invoices-overview-id#</invoices_overview>
+      <purchase_plan>#purchase-plan-id#</purchase_plan>
     `;
 
     console.log("CONTEXT", context);

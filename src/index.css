@@ -95,9 +95,9 @@ body {
 }
 
 .shadow-inverse {
-  -webkit-box-shadow: -1px 1px 53px -14px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: -1px 1px 53px -14px rgba(0, 0, 0, 0.15);
-  box-shadow: -1px 1px 53px -14px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: -1px 1px 53px -14px rgba(9, 41, 93, 0.3);
+  -moz-box-shadow: -1px 1px 53px -14px rgba(9, 41, 93, 0.3);
+  box-shadow: -1px 1px 53px -14px rgba(9, 41, 93, 0.3);
 }
 
 
