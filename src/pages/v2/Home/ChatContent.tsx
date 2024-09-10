@@ -13,14 +13,16 @@ const ChatContent = ({ messages, lastMessageRef }) => {
     "No disponible por ahora";
 
   const replaceUrlWithLink = (text: string) => {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
     const csfIdRegex = /#csf-id#/g;
     const complianceIdRegex = /#compliance-id#/g;
 
     let processedText = text.replace(
       urlRegex,
-      (url) =>
-        `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${url}</a>`
+      (url) => {
+        const href = url.startsWith('www.') ? `https://${url}` : url;
+        return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${url}</a>`;
+      }
     );
 
     processedText = processedText.replace(
@@ -39,7 +41,7 @@ const ChatContent = ({ messages, lastMessageRef }) => {
   const renderMessage = (message: string) => {
     if (message.includes("#invoices-overview-id#")) {
       return (
-        <div className="mb-1 ml-1">
+        <div className="mb-1 mx-1">
           <p className="text-sm text-blue-950 mb-2">
             Aquí puedes ver un resumen de tu facturación:
           </p>
@@ -52,7 +54,7 @@ const ChatContent = ({ messages, lastMessageRef }) => {
 
     if (message.includes("#purchase-plan-id#")) {
       return (
-        <div className="mb-1 ml-1">
+        <div className="mb-1 mx-1">
           <p className="text-sm text-blue-950 mb-2">
             Aquí puedes ver más información sobre tu plan activo:
           </p>

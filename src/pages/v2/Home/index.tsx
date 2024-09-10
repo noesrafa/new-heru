@@ -8,6 +8,7 @@ import Plan from "./Plan";
 import Invoices from "./Invoices";
 import AddSection from "./AddSection";
 import { User, useUser } from "../../../contexts/UserContext";
+import Deductibles from "./Deductibles";
 
 const Home = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -104,7 +105,7 @@ const Home = () => {
         }`}
       >
         <FiscalProfileOverview />
-        <div className="sm:grid grid-cols-2 gap-4 mt-4">
+        <div className="flex flex-col sm:grid grid-cols-2 gap-4 mt-4">
           <div className="flex flex-col gap-4">
             <Checklist />
             <img
@@ -113,6 +114,7 @@ const Home = () => {
               className="relative h-fit-content w-full object-cover rounded-lg"
             ></img>
             <Invoices />
+            <Deductibles />
           </div>
           <div className="flex flex-col gap-4">
             <Plan />

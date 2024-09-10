@@ -57,8 +57,8 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
 
       constancia: url de la constancia de situación fiscal
       compliance: url de la opinión de cumplimiento del SAT
-      invoices_overview: si el usuario quiere ver un resumen de sus facturas
-      purchase_plan: si el usuario quiere ver info sobre su plan activo
+      invoices_overview_id: si el usuario quiere ver un resumen de sus facturas
+      purchase_plan_id: información sobre el plan del usuario
 
       <name>${user?.complete_name}</name>
       <email>${user?.email}</email>
@@ -70,8 +70,8 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       <regimes>${regimes}</regimes>
       <rfc>${rfc}</rfc>
       <user_activities>${activities}</user_activities>
-      <invoices_overview>#invoices-overview-id#</invoices_overview>
-      <purchase_plan>#purchase-plan-id#</purchase_plan>
+      <invoices_overview_id>#invoices-overview-id#</invoices_overview_id>
+      <purchase_plan_id>#purchase-plan-id#</purchase_plan_id>
     `;
 
     console.log("CONTEXT", context);
@@ -163,14 +163,14 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
           <div className="flex justify-between items-center mb-4">
             <button
               disabled={isLoading.createMessage}
-              className="disabled:opacity-50 disabled:cursor-not-allowed"
+              className="disabled:opacity-40 disabled:cursor-not-allowed"
               onClick={() => setIsChatOpen(false)}
             >
               <XCircle className="size-6 text-neutral-400" weight="fill" />
             </button>
             <button
               disabled={isLoading.createMessage}
-              className={`disabled:opacity-50 disabled:cursor-not-allowed`}
+              className={`disabled:opacity-40 disabled:cursor-not-allowed`}
               onClick={handleClearChat}
             >
               <TrashSimple className="size-5 text-neutral-400" weight="bold" />

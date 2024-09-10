@@ -38,7 +38,7 @@ const FiscalProfileOverview = () => {
       ) : (
         <div className="h-4 w-20 rounded bg-slate-200 animate-pulse"></div>
       )}
-      <div className="opacity-50 text-sm flex gap-1 items-center">
+      <div className="opacity-50 text-sm flex gap-1 items-center mt-1">
         <button
           className="w-full flex flex-col sm:flex-row text-xs justify-center items-center gap-1  rounded-full px-1 sm:px-2 py-1"
           onClick={() => handleDownload(csf)}
