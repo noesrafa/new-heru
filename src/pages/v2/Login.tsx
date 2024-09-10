@@ -82,6 +82,7 @@ const Login = () => {
         setUser({
           ...userInfo,
           taxpayer_info: null,
+          isLoading: false,
         });
 
         localStorage.setItem("user_info", JSON.stringify(userInfo));

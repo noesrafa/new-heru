@@ -27,7 +27,7 @@ const Chat = () => {
     if (!userMessage || !sessionId) return;
     setUserMessage("");
 
-    await createMessage(userMessage, sessionId);
+    await createMessage(userMessage, sessionId, "");
   };
 
   useEffect(() => {

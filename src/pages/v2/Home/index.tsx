@@ -7,21 +7,54 @@ import Checklist from "./Checklist";
 import Plan from "./Plan";
 import Invoices from "./Invoices";
 import AddSection from "./AddSection";
-import { useUser } from "../../../contexts/UserContext";
+import { User, useUser } from "../../../contexts/UserContext";
 
 const Home = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const { setUser } = useUser();
+  const { user, setUser } = useUser();
 
-  const fetchTaxpayerInfo = async () => {
+  const fetchTaxpayerRegimes = async () => {
     const accessToken = localStorage.getItem("access_token");
-    const user = JSON.parse(localStorage.getItem("user_info"));
+    const userInfoLocal = JSON.parse(localStorage.getItem("user_info"));
 
-    if (!accessToken || !user) return;
+    if (!accessToken || !userInfoLocal) {
+      console.error("Access token or user info not found");
+      return;
+    }
 
     try {
       const response = await fetch(
-        `https://api2.heru.app/tax/heru-core-fiscal-read-level-service/taxpayer/users/${user.id}/taxpayers`,
+        "https://api2.heru.app/tax/fiscal-profile/taxpayer/regimes",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch taxpayer regimes");
+      }
+
+      const data = await response.json();
+      return data.resource;
+    } catch (error) {
+      console.error("Error fetching taxpayer regimes:", error);
+    }
+  };
+
+  const fetchTaxpayerInfo = async () => {
+    setUser((prev) => ({ ...prev, isLoading: true }));
+    const accessToken = localStorage.getItem("access_token");
+    const userInfoLocal = JSON.parse(localStorage.getItem("user_info"));
+
+    console.log(userInfoLocal);
+
+    if (!accessToken || !userInfoLocal) return;
+
+    try {
+      const response = await fetch(
+        `https://api2.heru.app/tax/heru-core-fiscal-read-level-service/taxpayer/users/${userInfoLocal.id}/taxpayers`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -35,21 +68,29 @@ const Home = () => {
 
       const data = await response.json();
 
-      const userInfo = localStorage.getItem("user_info");
-      const UserComplete = {
-        ...JSON.parse(userInfo),
+      const regimes = await fetchTaxpayerRegimes();
+
+      const userComplete: User = {
+        ...userInfoLocal,
         taxpayer_info: data.resource,
+        taxpayer_regimes: regimes,
+        isLoading: false,
       };
 
-      setUser(UserComplete);
+      setUser((prev) => ({ ...prev, ...userComplete }));
     } catch (error) {
       console.error("Error fetching taxpayer info:", error);
+    } finally {
+      setUser((prev) => ({ ...prev, isLoading: false }));
     }
   };
+
+  console.log("USER", user);
 
   useEffect(() => {
     fetchTaxpayerInfo();
   }, []);
+
   return (
     <MainLayoutV2>
       <Header />

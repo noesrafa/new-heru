@@ -1,4 +1,10 @@
-import { ArrowUp, Sparkle, TrashSimple, XCircle } from "@phosphor-icons/react";
+import {
+  ArrowUp,
+  CircleNotch,
+  Sparkle,
+  TrashSimple,
+  XCircle,
+} from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 import ChatContent from "./ChatContent";
 import useBedrock from "../../../hooks/useBedrock";
@@ -21,7 +27,25 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
     if (!userMessage || !sessionId || isLoading.createMessage || !user) return;
     setUserMessage("");
 
-    const csf = user.taxpayer_info?.status?.file?.file_url;
+    const csf =
+      user.taxpayer_info?.status?.file?.file_url || "No disponible por ahora";
+    const compliance =
+      user.taxpayer_info?.compliance?.file?.file_url ||
+      "No disponible por ahora";
+    const regimes = user.taxpayer_regimes
+      .filter(
+        (regime) =>
+          regime.code !== null && regime.name !== null && regime.name !== ""
+      )
+      .map((regime) => regime.name)
+      .filter((name, index, self) => self.indexOf(name) === index)
+      .join(", ");
+
+    const rfc = user.taxpayer_info?.code;
+
+    const activities = user.taxpayer_info?.status?.economic_activities
+      ?.map((activity) => activity.name)
+      .join(", ");
 
     const context = `
       constancia: es la constancia de situación fiscal
@@ -31,9 +55,12 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       <email>${user.email}</email>
       <phone>${user.phone}</phone>
       <constancia>${csf}</constancia>
-      <compliance>No disponible por ahora</compliance>
+      <compliance>${compliance}</compliance>
       <current_date>${new Date().toLocaleDateString()}</current_date>
       <current_time>${new Date().toLocaleTimeString()}</current_time>
+      <regimes>${regimes}</regimes>
+      <rfc>${rfc}</rfc>
+      <activities>${activities}</activities>
     `;
 
     console.log("CONTEXT", context);
@@ -144,7 +171,14 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
           <div className="flex flex-col gap-2 w-full">
             <h4 className="text-blue-400 uppercase text-xs -mb-2 font-bold">
               Heru AI{" "}
-              <Sparkle className="size-3 inline-block mb-1" weight="fill" />
+              {!user?.isLoading ? (
+                <Sparkle className="size-3 inline-block mb-1" weight="fill" />
+              ) : (
+                <CircleNotch
+                  className="size-3 inline-block mb-1 animate-spin"
+                  weight="bold"
+                />
+              )}
             </h4>
             <textarea
               ref={inputRef}

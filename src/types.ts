@@ -33,7 +33,10 @@ export interface Address {
   taxpayer_id: number;
 }
 
-export interface Compliance {}
+export interface Compliance {
+  id: number;
+  file: File;
+}
 
 export interface Status {
   status: string;

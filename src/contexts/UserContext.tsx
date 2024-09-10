@@ -2,8 +2,8 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 import { TaxpayerInfo } from "../types";
 
 interface UserContextType {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: User | null | any;
+  setUser: (user: User | null | any) => void;
 }
 
 export interface User {
@@ -13,6 +13,7 @@ export interface User {
   phone: string;
   country_code: string;
   taxpayer_info: TaxpayerInfo | null;
+  isLoading: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
