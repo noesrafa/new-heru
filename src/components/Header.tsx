@@ -19,7 +19,7 @@ const Header = () => {
     <div
       className={`sticky -top-1 z-10 transition-all ${
         scrollY > 32 ? "p-2" : ""
-      } ${user?.isChatOpen ? "opacity-0 sm:opacity-100" : "opacity-100 "}`}
+      } ${user?.isChatOpen ? "-translate-y-full sm:translate-y-0" : "translate-y-0"}`}
     >
       <div
         className={`flex justify-between items-center backdrop-blur-xl ${
