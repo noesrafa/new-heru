@@ -28,11 +28,11 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
     setUserMessage("");
 
     const csf =
-      user.taxpayer_info?.status?.file?.file_url || "No disponible por ahora";
+      user?.taxpayer_info?.status?.file?.file_url || "No disponible por ahora";
     const compliance =
-      user.taxpayer_info?.compliance?.file?.file_url ||
+      user?.taxpayer_info?.compliance?.file?.file_url ||
       "No disponible por ahora";
-    const regimes = user.taxpayer_regimes
+    const regimes = user?.taxpayer_regimes
       ?.filter(
         (regime) =>
           regime.code !== null && regime.name !== null && regime.name !== ""
@@ -41,9 +41,9 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       ?.filter((name, index, self) => self.indexOf(name) === index)
       ?.join(", ");
 
-    const rfc = user.taxpayer_info?.code;
+    const rfc = user?.taxpayer_info?.code;
 
-    const activities = user.taxpayer_info?.status?.economic_activities
+    const activities = user?.taxpayer_info?.status?.economic_activities
       ?.map((activity) => activity.name)
       ?.join(", ");
 
@@ -51,9 +51,9 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       constancia: es la constancia de situación fiscal
       compliance: es la opinión de cumplimiento del SAT
 
-      <name>${user.complete_name}</name>
-      <email>${user.email}</email>
-      <phone>${user.phone}</phone>
+      <name>${user?.complete_name}</name>
+      <email>${user?.email}</email>
+      <phone>${user?.phone}</phone>
       <constancia>${csf}</constancia>
       <compliance>${compliance}</compliance>
       <current_date>${new Date().toLocaleDateString()}</current_date>
