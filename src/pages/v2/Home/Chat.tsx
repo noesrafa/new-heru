@@ -137,7 +137,9 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
   return (
     <div className="w-full fixed bottom-0 max-w-2xl px-3 sm:px-0 shadow-sm fade-in z-20">
       <div
-        className={`bg-white/70 border-2 border-white backdrop-blur-xl w-full rounded-t-lg p-3 sm:p-4 shadow-inverse`}
+        className={`${
+          user?.isChatOpen ? "bg-white/70" : "bg-white/90"
+        } border-2 border-white backdrop-blur-xl w-full rounded-t-lg p-3 sm:p-4 shadow-inverse`}
       >
         {/* ========= CHAT ========== */}
         <div
@@ -169,7 +171,7 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
         {/* =========== INPUT ============ */}
         <div className="flex justify-between gap-2">
           <div className="flex flex-col gap-2 w-full">
-            <h4 className="text-blue-400 uppercase text-xs -mb-2 font-bold">
+            <h4 className="text-blue-500 uppercase text-xs -mb-2 font-bold">
               Heru AI{" "}
               {!user?.isLoading ? (
                 <Sparkle className="size-3 inline-block mb-1" weight="fill" />

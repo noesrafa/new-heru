@@ -1,5 +1,5 @@
 import React from "react";
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../../layouts/MainLayout";
 import { Clock, ListChecks } from "@phosphor-icons/react";
 
 const notificationsData = {

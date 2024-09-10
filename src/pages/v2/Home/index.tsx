@@ -91,6 +91,10 @@ const Home = () => {
     fetchTaxpayerInfo();
   }, []);
 
+  useEffect(() => {
+    setUser((prev) => ({ ...prev, isChatOpen }));
+  }, [isChatOpen]);
+
   return (
     <MainLayoutV2>
       <Header />

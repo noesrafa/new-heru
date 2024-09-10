@@ -7,7 +7,7 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
-import Chat from "./pages/Chat.tsx";
+import Chat from "./pages/v1/Chat.tsx";
 import Home from "./pages/v2/Home/index.tsx";
 import Notifications from "./pages/v2/Notifications.tsx";
 import Documents from "./pages/v2/Documents.tsx";

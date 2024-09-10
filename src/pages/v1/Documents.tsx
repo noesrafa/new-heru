@@ -5,7 +5,7 @@ import {
   ShareFat,
   UserCheck,
 } from "@phosphor-icons/react";
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../../layouts/MainLayout";
 
 const Documents = () => {
   return (

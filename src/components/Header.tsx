@@ -1,8 +1,10 @@
 import { ShoppingCartSimple, User } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
+import { useUser } from "../contexts/UserContext";
 
 const Header = () => {
   const [scrollY, setScrollY] = useState(0);
+  const { user } = useUser();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,7 +19,7 @@ const Header = () => {
     <div
       className={`sticky -top-1 z-10 transition-all ${
         scrollY > 32 ? "p-2" : ""
-      }`}
+      } ${user?.isChatOpen ? "opacity-0 sm:opacity-100" : "opacity-100 "}`}
     >
       <div
         className={`flex justify-between items-center backdrop-blur-xl ${

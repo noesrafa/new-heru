@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../../layouts/MainLayout";
 
 const chatsMock = [
   {

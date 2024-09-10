@@ -1,4 +1,4 @@
-import ChatLayout from "../layouts/ChatLayout";
+import ChatLayout from "../../layouts/ChatLayout";
 import {
   CaretLeft,
   Check,
@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRef } from "react";
-import useBedrock from "../hooks/useBedrock";
+import useBedrock from "../../hooks/useBedrock";
 
 const Chat = () => {
   const [userMessage, setUserMessage] = useState("");
