@@ -33,19 +33,19 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       user.taxpayer_info?.compliance?.file?.file_url ||
       "No disponible por ahora";
     const regimes = user.taxpayer_regimes
-      .filter(
+      ?.filter(
         (regime) =>
           regime.code !== null && regime.name !== null && regime.name !== ""
       )
-      .map((regime) => regime.name)
-      .filter((name, index, self) => self.indexOf(name) === index)
-      .join(", ");
+      ?.map((regime) => regime.name)
+      ?.filter((name, index, self) => self.indexOf(name) === index)
+      ?.join(", ");
 
     const rfc = user.taxpayer_info?.code;
 
     const activities = user.taxpayer_info?.status?.economic_activities
       ?.map((activity) => activity.name)
-      .join(", ");
+      ?.join(", ");
 
     const context = `
       constancia: es la constancia de situación fiscal
@@ -60,7 +60,7 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       <current_time>${new Date().toLocaleTimeString()}</current_time>
       <regimes>${regimes}</regimes>
       <rfc>${rfc}</rfc>
-      <activities>${activities}</activities>
+      <user_activities>${activities}</user_activities>
     `;
 
     console.log("CONTEXT", context);
