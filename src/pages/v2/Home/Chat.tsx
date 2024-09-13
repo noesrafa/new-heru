@@ -43,7 +43,7 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       )
       ?.map((regime) => regime.name)
       ?.filter((name, index, self) => self.indexOf(name) === index)
-      ?.join(", ");
+      ?.join("Regimen: ");
 
     const rfc = user?.taxpayer_info?.code;
 
@@ -67,7 +67,7 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       <compliance>${compliance}</compliance>
       <current_date>${new Date().toLocaleDateString()}</current_date>
       <current_time>${new Date().toLocaleTimeString()}</current_time>
-      <regimes>${regimes}</regimes>
+      <regimes>Regimen: ${regimes}</regimes>
       <rfc>${rfc}</rfc>
       <user_activities>${activities}</user_activities>
       <invoices_overview_id>#invoices-overview-id#</invoices_overview_id>
