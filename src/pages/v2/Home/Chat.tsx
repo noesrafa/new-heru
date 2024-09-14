@@ -1,6 +1,7 @@
 import {
   ArrowUp,
   CircleNotch,
+  PaperPlaneTilt,
   Sparkle,
   TrashSimple,
   XCircle,
@@ -182,17 +183,30 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
         {/* =========== INPUT ============ */}
         <div className="flex justify-between gap-2">
           <div className="flex flex-col gap-2 w-full">
-            <h4 className="text-blue-500 uppercase text-xs -mb-2 font-bold">
-              Heru AI{" "}
-              {!user?.isLoading ? (
-                <Sparkle className="size-3 inline-block mb-1" weight="fill" />
-              ) : (
-                <CircleNotch
-                  className="size-3 inline-block mb-1 animate-spin"
-                  weight="bold"
-                />
-              )}
-            </h4>
+            <div className="flex items-center gap-3 mb-2">
+              <img
+                src="https://chat.google.com/u/0/api/get_attachment_url?url_type=FIFE_URL&content_type=image%2Fjpeg&attachment_token=AOo0EEUOyjr30ljfBB53ymTRJUoeiYIv2hEI0Q3PcVKtxAkysf3DpeGzp50TkVzYO8%2FkraXW0Vg5b%2Fkmivu6H%2FPbbwLWNLXo0ldvCvCGChluPrRK5FyCzBjdKqetR3O5WZiN1o5ion%2FDDPegvyBNT%2BtLiVdJLwPhUVBWBCmeqh%2FjyqT8z0AMqIXb24EHfOCbIZu2mcSKAJTlZ%2FkLyVyadtNNdkaJ3J6o%2FwLT80YZXarBh2OfXcrY3TBL%2BDuo8zyzJ0tf9kcNkMArFEGtbgGOaHDiVHh%2BkeFx7P55ZCpGg0kJmwsvAjun1wNUVQ2zQwGyROXoJYK4zZF%2FxXOwvWpG7ZUAiiM3GyKEmMX8hGIiCZ1Pxh%2Fiq32MWN53ea%2BvIUyuaBGEWuCug3gVU1BWqFaKrAQo%2FovKGEHwHcBHAqY4E8f8w%2FcnTDOb6fx%2B3rB%2BrEN52iwhYO%2B7EsfsKw%2B8rHjdFPpzradL0abMZwezYM3Og0P0EaXB%2FwpdIZYFWD9LNvobpn4%2FaSn3rAh78o7n0d%2FfooX2wy%2BVy3ceYuTIR4pLgavuCTWmc9zoigAa5QPhgIBP3QNAUn2UGyanb3HvOo0JT4LcKaibLG83n%2F1F%2FJk8XOj1Es%2B%2F3lWWVOzKJYtPQg%3D%3D&sz=w2559-h1439"
+                alt=""
+                className="size-10 bg-neutral-100 rounded-full object-cover"
+              />
+              <div>
+                <h4 className="text-blue-950 uppercase text-xs -mb-2 font-bold">
+                  César de Heru{" "}
+                  {!user?.isLoading ? (
+                    <div></div>
+                  ) : (
+                    <CircleNotch
+                      className="size-3 inline-block mb-1 animate-spin"
+                      weight="bold"
+                    />
+                  )}
+                </h4>
+                <p className="flex items-center gap-2 mt-2 text-xs text-green-500">
+                  <div className="size-2 rounded-full bg-green-500 "></div>{" "}
+                  Disponible ahora
+                </p>
+              </div>
+            </div>
             <textarea
               ref={inputRef}
               value={userMessage}
@@ -211,12 +225,15 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
           <div>
             <button
               disabled={isLoading.createMessage}
-              className={`size-6 sm:size-7 flex items-center justify-center bg-blue-500 rounded-full mt-3 transition-all duration-250 ease-custom-ease disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`size-8 sm:size-7 flex items-center justify-center bg-blue-500 rounded-full mt-12 transition-all duration-250 ease-custom-ease disabled:opacity-50 disabled:cursor-not-allowed ${
                 showSendButton || isChatOpen ? "scale-100" : "scale-0"
               }`}
               onClick={handleSendMessage}
             >
-              <ArrowUp className="size-[18px] text-white" weight="bold" />
+              <PaperPlaneTilt
+                className="size-[16px] text-white"
+                weight="bold"
+              />
             </button>
           </div>
         </div>

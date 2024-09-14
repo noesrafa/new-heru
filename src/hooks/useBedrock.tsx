@@ -20,7 +20,7 @@ function useBedrock() {
 
       setMessagesHistory((prev) => [
         ...prev,
-        { message: "Analizando", role: "current-action" },
+        { message: "Escribiendo", role: "current-action" },
       ]);
 
       const response = await fetch(

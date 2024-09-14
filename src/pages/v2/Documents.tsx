@@ -4,6 +4,10 @@ const Documents = () => {
   return (
     <MainLayoutV2>
       <Header />
+      <div>
+        <input type="text" />
+        <button>Buscar</button>
+      </div>
     </MainLayoutV2>
   );
 };
