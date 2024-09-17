@@ -12,7 +12,7 @@ const Documents = () => {
     assistantResponse: "",
     usage: "",
   });
-  const [assistantLastestQuestion, setAssistantLastestQuestion] = useState(
+  const [assistantLatestQuestion, setAssistantLatestQuestion] = useState(
     `
 Bienvenido a Heru. Mi nombre es Sam, especialista de atención al cliente, y es un placer saludarle hoy. En Heru estamos comprometidos con simplificar el cumplimiento de sus obligaciones fiscales, permitiéndole enfocarse en lo que realmente importa: sus ingresos. Para empezar, por favor cuénteme un poco sobre su situación fiscal, sus actividades económicas actuales y qué tipo de servicio está buscando con Heru.`
   );
@@ -38,6 +38,8 @@ Bienvenido a Heru. Mi nombre es Sam, especialista de atención al cliente, y es 
         )
       );
 
+      
+
       const response = await fetch(
         "http://localhost:88/api/v1/heru-ai-service/samantha/chat",
         {
@@ -46,9 +48,10 @@ Bienvenido a Heru. Mi nombre es Sam, especialista de atención al cliente, y es 
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            userName: "Usnavi",
+            userId: 1234,
             userMessage: userMessage,
-            userCurrentData: filteredUserCurrentData,
-            assistantLastestQuestion,
+            assistantLatestQuestion,
           }),
         }
       );
@@ -71,8 +74,8 @@ Bienvenido a Heru. Mi nombre es Sam, especialista de atención al cliente, y es 
       const response = await callSamanthaAPI(userInput);
       setUserInput("");
       setApiResponse(response);
-      setAssistantLastestQuestion(
-        response.assistantResponse.assistantFeedbackQuestion
+      setAssistantLatestQuestion(
+        response.assistantResponse.assistant_feedback_question
       );
       setUserCurrentData(response.assistantResponse);
     } catch (error) {
@@ -89,7 +92,7 @@ Bienvenido a Heru. Mi nombre es Sam, especialista de atención al cliente, y es 
   return (
     <MainLayoutV2>
       <Header />
-      <p className="mt-10 mb-6">{assistantLastestQuestion}</p>
+      <p className="mt-10 mb-6">{assistantLatestQuestion}</p>
       <form onSubmit={handleSubmit}>
         <input
           className="w-full p-3 my-3"

@@ -17,13 +17,10 @@ const ChatContent = ({ messages, lastMessageRef }) => {
     const csfIdRegex = /#csf-id#/g;
     const complianceIdRegex = /#compliance-id#/g;
 
-    let processedText = text.replace(
-      urlRegex,
-      (url) => {
-        const href = url.startsWith('www.') ? `https://${url}` : url;
-        return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${url}</a>`;
-      }
-    );
+    let processedText = text.replace(urlRegex, (url) => {
+      const href = url.startsWith("www.") ? `https://${url}` : url;
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${url}</a>`;
+    });
 
     processedText = processedText.replace(
       csfIdRegex,
