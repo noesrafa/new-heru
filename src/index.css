@@ -3,13 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --bezier-1: cubic-bezier(1,-0.29,.01,1.42);
-  --bezier-2: cubic-bezier(.36,.01,.92,-0.64);
+  --bezier-1: cubic-bezier(1, -0.29, 0.01, 1.42);
+  --bezier-2: cubic-bezier(0.36, 0.01, 0.92, -0.64);
 }
 
 body {
   background: theme("colors.c-neutral.100");
   color: #172554;
+  transition: background 0.3s ease;
+}
+
+.body-bg-dark {
+  background: #e8ebf6;
 }
 
 .fade-in {
@@ -100,14 +105,18 @@ body {
   box-shadow: -1px 1px 53px -14px rgba(9, 41, 93, 0.3);
 }
 
-
 @keyframes pulseScale {
-  0%, 100% { transform: scale(0); }
-  50% { transform: scale(1); }
+  0%,
+  100% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
 }
 
 .animate-pulse-scale {
-  animation: pulseScale 1.4s cubic-bezier(1,-0.1,0,1.08) infinite;
+  animation: pulseScale 1.4s cubic-bezier(1, -0.1, 0, 1.08) infinite;
 }
 
 .animation-delay-200 {
@@ -126,8 +135,13 @@ body {
 }
 
 @keyframes slowMove {
-  0%, 100% { transform: translate(-50%, -50%) translateX(-5%); }
-  50% { transform: translate(-50%, -50%) translateX(5%); }
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateX(-5%);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(5%);
+  }
 }
 
 .slow-move {

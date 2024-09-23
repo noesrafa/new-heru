@@ -16,12 +16,25 @@ const ChatContent = ({ messages, lastMessageRef }) => {
     const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
     const csfIdRegex = /#csf-id#/g;
     const complianceIdRegex = /#compliance-id#/g;
+    const heruAcuseRegex = /www\.heru\.com\/acuses\/[^\s]+/g;
 
+    if (text.includes("www.heru.com/acuses/")) {
+      let processedText = text.replace(heruAcuseRegex, (url) => {
+        console.log("url", url);
+
+        return `<a href="https://d15k0l3mi8k562.cloudfront.net/PLATEC_TAX_RETURN%2F2023%2F5%2F104a3e7e-7d80-45af-84a4-39c04260a0dc.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">[Descargar acuse]</a>`;
+      });
+
+      return processedText;
+    }
+
+    // Reemplazo de URLs generales
     let processedText = text.replace(urlRegex, (url) => {
       const href = url.startsWith("www.") ? `https://${url}` : url;
       return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">${url}</a>`;
     });
 
+    // Reemplazo del CSF
     processedText = processedText.replace(
       csfIdRegex,
       `<a href="${csf}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">[Descargar constancia de situación fiscal]</a>`
@@ -31,6 +44,8 @@ const ChatContent = ({ messages, lastMessageRef }) => {
       complianceIdRegex,
       `<a href="${compliance}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">[Descargar opinión de cumplimiento]</a>`
     );
+
+    console.log("processedText", processedText);
 
     return processedText;
   };
@@ -62,10 +77,10 @@ const ChatContent = ({ messages, lastMessageRef }) => {
       );
     }
 
-    const renderMessage = { __html: replaceUrlWithLink(message) };
-    return <div dangerouslySetInnerHTML={renderMessage} />;
+    // Corrección del uso de dangerouslySetInnerHTML
+    const processedMessage = replaceUrlWithLink(message);
+    return <div dangerouslySetInnerHTML={{ __html: processedMessage }} />;
   };
-
   return (
     <div className="h-[calc(100%-64px)]">
       <div className="flex flex-col gap-2 mb-20 overflow-y-auto h-full">

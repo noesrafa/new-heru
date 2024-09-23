@@ -109,7 +109,7 @@ const Home = () => {
           <div className="flex flex-col gap-4">
             <Checklist />
             <img
-              src="	https://web.heru.app/assets/Conoce_planes_Small_Desktop-19a58158.png"
+              src="https://web.heru.app/assets/Conoce_planes_Small_Desktop-19a58158.png"
               alt="Banner de compra suscripcion"
               className="relative h-fit-content w-full object-cover rounded-lg"
             ></img>

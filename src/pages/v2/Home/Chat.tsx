@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import ChatContent from "./ChatContent";
 import useBedrock from "../../../hooks/useBedrock";
 import { useUser } from "../../../contexts/UserContext";
+import AccountantAvatar from "../../../assets/man.svg";
 
 const Chat = ({ isChatOpen, setIsChatOpen }) => {
   const [userMessage, setUserMessage] = useState("");
@@ -73,6 +74,14 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
       <user_activities>${activities}</user_activities>
       <invoices_overview_id>#invoices-overview-id#</invoices_overview_id>
       <purchase_plan_id>#purchase-plan-id#</purchase_plan_id>
+      <last_purchase_product>
+        <product_name>Suscripción mensual Heru Plus para Plataformas tecnológicas</product_name>
+        <product_price>$499</product_price>
+        <product_adquisition_date>2024-09-01</product_adquisition_date>
+        <product_renewal_date>2024-10-01</product_renewal_date>
+        <discount>10%</discount>
+        <discount_info>Descuento por vincular organización (Rappi)</discount_info>
+      </last_purchase_product>
     `;
 
     console.log("CONTEXT", context);
@@ -185,7 +194,7 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
           <div className="flex flex-col gap-2 w-full">
             <div className="flex items-center gap-3 mb-2">
               <img
-                src="https://chat.google.com/u/0/api/get_attachment_url?url_type=FIFE_URL&content_type=image%2Fjpeg&attachment_token=AOo0EEUOyjr30ljfBB53ymTRJUoeiYIv2hEI0Q3PcVKtxAkysf3DpeGzp50TkVzYO8%2FkraXW0Vg5b%2Fkmivu6H%2FPbbwLWNLXo0ldvCvCGChluPrRK5FyCzBjdKqetR3O5WZiN1o5ion%2FDDPegvyBNT%2BtLiVdJLwPhUVBWBCmeqh%2FjyqT8z0AMqIXb24EHfOCbIZu2mcSKAJTlZ%2FkLyVyadtNNdkaJ3J6o%2FwLT80YZXarBh2OfXcrY3TBL%2BDuo8zyzJ0tf9kcNkMArFEGtbgGOaHDiVHh%2BkeFx7P55ZCpGg0kJmwsvAjun1wNUVQ2zQwGyROXoJYK4zZF%2FxXOwvWpG7ZUAiiM3GyKEmMX8hGIiCZ1Pxh%2Fiq32MWN53ea%2BvIUyuaBGEWuCug3gVU1BWqFaKrAQo%2FovKGEHwHcBHAqY4E8f8w%2FcnTDOb6fx%2B3rB%2BrEN52iwhYO%2B7EsfsKw%2B8rHjdFPpzradL0abMZwezYM3Og0P0EaXB%2FwpdIZYFWD9LNvobpn4%2FaSn3rAh78o7n0d%2FfooX2wy%2BVy3ceYuTIR4pLgavuCTWmc9zoigAa5QPhgIBP3QNAUn2UGyanb3HvOo0JT4LcKaibLG83n%2F1F%2FJk8XOj1Es%2B%2F3lWWVOzKJYtPQg%3D%3D&sz=w2559-h1439"
+                src={AccountantAvatar}
                 alt=""
                 className="size-10 bg-neutral-100 rounded-full object-cover"
               />
@@ -225,14 +234,14 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
           <div>
             <button
               disabled={isLoading.createMessage}
-              className={`size-8 sm:size-7 flex items-center justify-center bg-blue-500 rounded-full mt-12 transition-all duration-250 ease-custom-ease disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`size-8 sm:size-8 flex items-center justify-center bg-blue-500 rounded-full mt-12 transition-all duration-250 ease-custom-ease disabled:opacity-50 disabled:cursor-not-allowed ${
                 showSendButton || isChatOpen ? "scale-100" : "scale-0"
               }`}
               onClick={handleSendMessage}
             >
               <PaperPlaneTilt
-                className="size-[16px] text-white"
-                weight="bold"
+                className="size-[16px] text-white mt-[1px]"
+                weight="fill"
               />
             </button>
           </div>
