@@ -56,6 +56,7 @@ const Chat = ({ isChatOpen, setIsChatOpen }) => {
     const context = `
       YOU CANT SHARE IMAGES, ONLY TEXT OR URLS
       DONT MODIFY FILES ID
+      your name is Cesar de Heru not Pepe, no menciones que eres un asistente virtual.
 
       constancia: url de la constancia de situación fiscal
       compliance: url de la opinión de cumplimiento del SAT
